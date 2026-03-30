@@ -1,9 +1,16 @@
 import React from 'react';
+// Import ikon Lucide
+import { Heart, BookOpen, Users, PlaySquare, CheckCircle2 } from 'lucide-react';
+
+// 1. Import Aset Gambar dari folder assets
+import sholehahLogo from '../../assets/sholehah.png';
+import jofisahLogo from '../../assets/jofisah.png';
+import khazanahLogo from '../../assets/logo.png'; // Menggunakan logo.png yang di path assets
 
 const Home: React.FC = () => {
     return (
         <div className="font-sans text-gray-800 bg-white selection:bg-khazanah-light selection:text-khazanah-dark">
-
+            
             {/* HERO SECTION */}
             <section className="min-h-[100dvh] md:min-h-screen flex items-center justify-center bg-gradient-to-br from-khazanah-light via-white to-gray-50 pt-32 pb-16 md:pt-20 md:pb-20">
                 <div className="text-center max-w-4xl px-4 sm:px-6 lg:px-8">
@@ -60,15 +67,18 @@ const Home: React.FC = () => {
                             <p className="text-gray-600 leading-relaxed mb-6">
                                 Khazanah Alwahda Kreatif hadir sejak 2021 sebagai wadah dakwah digital yang edukatif & interaktif. Kami menyebarkan spirit persatuan (unity) dan keberagaman dalam Islam khusus untuk generasi muda Muslim Indonesia.
                             </p>
-                            <ul className="space-y-3 text-gray-700 font-medium text-left inline-block md:block">
+                            <ul className="space-y-4 text-gray-700 font-medium text-left inline-block md:block">
                                 <li className="flex items-center gap-3">
-                                    <span className="text-khazanah-gold text-lg">✓</span> Kolaborasi & Edukasi Islam modern
+                                    <CheckCircle2 className="text-khazanah-gold w-6 h-6 flex-shrink-0" />
+                                    Kolaborasi & Edukasi Islam modern
                                 </li>
                                 <li className="flex items-center gap-3">
-                                    <span className="text-khazanah-gold text-lg">✓</span> Komunitas yang inklusif & suportif
+                                    <CheckCircle2 className="text-khazanah-gold w-6 h-6 flex-shrink-0" />
+                                    Komunitas yang inklusif & suportif
                                 </li>
                                 <li className="flex items-center gap-3">
-                                    <span className="text-khazanah-gold text-lg">✓</span> Ratusan program pengembangan diri
+                                    <CheckCircle2 className="text-khazanah-gold w-6 h-6 flex-shrink-0" />
+                                    Ratusan program pengembangan diri
                                 </li>
                             </ul>
                         </div>
@@ -84,23 +94,31 @@ const Home: React.FC = () => {
                         <p className="text-gray-600 mt-4">Fokus pembahasan untuk menunjang pertumbuhanmu</p>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                        <div className="p-8 rounded-2xl bg-rose-50 border border-rose-100 hover:-translate-y-1 transition duration-300 text-center md:text-left">
-                            <div className="text-rose-500 text-4xl mb-4">🌸</div>
+                        <div className="p-8 rounded-2xl bg-rose-50 border border-rose-100 hover:-translate-y-1 transition duration-300 text-center md:text-left group">
+                            <div className="mb-5 inline-flex p-3 rounded-xl bg-white text-rose-500 shadow-sm border border-rose-100 group-hover:scale-111 transition-transform">
+                                <Heart size={32} strokeWidth={1.5} />
+                            </div>
                             <h3 className="text-xl font-bold text-gray-800 mb-2">Women</h3>
                             <p className="text-gray-600 text-sm leading-relaxed">Beauty, mental health, fashion & empowerment.</p>
                         </div>
-                        <div className="p-8 rounded-2xl bg-blue-50 border border-blue-100 hover:-translate-y-1 transition duration-300 text-center md:text-left">
-                            <div className="text-blue-500 text-4xl mb-4">📚</div>
+                        <div className="p-8 rounded-2xl bg-blue-50 border border-blue-100 hover:-translate-y-1 transition duration-300 text-center md:text-left group">
+                            <div className="mb-5 inline-flex p-3 rounded-xl bg-white text-blue-500 shadow-sm border border-blue-100 group-hover:scale-111 transition-transform">
+                                <BookOpen size={32} strokeWidth={1.5} />
+                            </div>
                             <h3 className="text-xl font-bold text-gray-800 mb-2">Education</h3>
                             <p className="text-gray-600 text-sm leading-relaxed">Dakwah, Quran study, daily verses, language.</p>
                         </div>
-                        <div className="p-8 rounded-2xl bg-amber-50 border border-amber-100 hover:-translate-y-1 transition duration-300 text-center md:text-left">
-                            <div className="text-khazanah-gold text-4xl mb-4">🤝</div>
+                        <div className="p-8 rounded-2xl bg-amber-50 border border-amber-100 hover:-translate-y-1 transition duration-300 text-center md:text-left group">
+                            <div className="mb-5 inline-flex p-3 rounded-xl bg-white text-khazanah-gold shadow-sm border border-amber-100 group-hover:scale-111 transition-transform">
+                                <Users size={32} strokeWidth={1.5} />
+                            </div>
                             <h3 className="text-xl font-bold text-gray-800 mb-2">Relationship</h3>
                             <p className="text-gray-600 text-sm leading-relaxed">Pre-marriage education, tips hubungan halal.</p>
                         </div>
-                        <div className="p-8 rounded-2xl bg-khazanah-light border border-khazanah-light hover:-translate-y-1 transition duration-300 text-center md:text-left">
-                            <div className="text-khazanah-green text-4xl mb-4">🎬</div>
+                        <div className="p-8 rounded-2xl bg-khazanah-light border border-khazanah-green/10 hover:-translate-y-1 transition duration-300 text-center md:text-left group">
+                            <div className="mb-5 inline-flex p-3 rounded-xl bg-white text-khazanah-green shadow-sm border border-khazanah-green/10 group-hover:scale-111 transition-transform">
+                                <PlaySquare size={32} strokeWidth={1.5} />
+                            </div>
                             <h3 className="text-xl font-bold text-gray-800 mb-2">Entertainment</h3>
                             <p className="text-gray-600 text-sm leading-relaxed">Film, komik, musik Islami, sports & series.</p>
                         </div>
@@ -146,24 +164,49 @@ const Home: React.FC = () => {
                         <p className="text-gray-600 mt-4">Kunjungi media partner dan sister-brands kami</p>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        
+                        {/* 2. Perbarui Bagian Sholehah */}
                         <div className="p-8 border border-gray-100 rounded-2xl shadow-sm text-center hover:shadow-md transition">
-                            <div className="w-20 h-20 bg-pink-100 rounded-full mx-auto mb-4 flex items-center justify-center text-3xl">🧕</div>
+                            <div className="w-20 h-20 bg-pink-50 rounded-full mx-auto mb-4 flex items-center justify-center p-1.5 border border-pink-100 shadow-inner overflow-hidden">
+                                <img 
+                                    src={sholehahLogo} 
+                                    alt="Logo Sholehah Story" 
+                                    className="w-full h-full object-contain rounded-full"
+                                />
+                            </div>
                             <h3 className="text-xl font-bold text-gray-900">@sholehahstory</h3>
                             <p className="text-khazanah-gold font-bold text-sm mb-3">914K Followers</p>
                             <p className="text-gray-600 text-sm">Muslim women empowerment & sisterhood community.</p>
                         </div>
+
+                        {/* 3. Perbarui Bagian Jofisah */}
                         <div className="p-8 border border-gray-100 rounded-2xl shadow-sm text-center hover:shadow-md transition">
-                            <div className="w-20 h-20 bg-blue-100 rounded-full mx-auto mb-4 flex items-center justify-center text-3xl">✨</div>
+                            <div className="w-20 h-20 bg-teal-50 rounded-full mx-auto mb-4 flex items-center justify-center p-1.5 border border-teal-100 shadow-inner overflow-hidden">
+                                <img 
+                                    src={jofisahLogo} 
+                                    alt="Logo Jofisah" 
+                                    className="w-full h-full object-contain rounded-full"
+                                />
+                            </div>
                             <h3 className="text-xl font-bold text-gray-900">@jofisah.id</h3>
                             <p className="text-khazanah-gold font-bold text-sm mb-3">325K Followers</p>
                             <p className="text-gray-600 text-sm">Faith, self growth, dan relationship stories.</p>
                         </div>
+
+                        {/* 4. Perbarui Bagian Khazanah Network */}
                         <div className="p-8 border border-gray-100 rounded-2xl shadow-sm text-center hover:shadow-md transition">
-                            <div className="w-20 h-20 bg-khazanah-light rounded-full mx-auto mb-4 flex items-center justify-center text-3xl">📰</div>
+                            <div className="w-20 h-20 bg-white rounded-full mx-auto mb-4 flex items-center justify-center p-1 border border-khazanah-green/10 shadow-inner overflow-hidden">
+                                <img 
+                                    src={khazanahLogo} 
+                                    alt="Logo Khazanah Network" 
+                                    className="w-full h-full object-contain rounded-full"
+                                />
+                            </div>
                             <h3 className="text-xl font-bold text-gray-900">@khazanahnetwork</h3>
                             <p className="text-khazanah-gold font-bold text-sm mb-3">302K Followers</p>
                             <p className="text-gray-600 text-sm">News, Islamic wisdom, and faith in action.</p>
                         </div>
+
                     </div>
                 </div>
             </section>
