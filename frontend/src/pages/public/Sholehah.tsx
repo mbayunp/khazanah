@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
     Heart, 
     Users, 
@@ -7,14 +7,18 @@ import {
     Smartphone, 
     ArrowRight,
     Flower2,
+    PlayCircle
 } from 'lucide-react';
 // Import Aset Gambar
 import logoSholehah from '../../assets/sholehah.png';
 import igIcon from '../../assets/ig.png';
 
 const Sholehah: React.FC = () => {
+    // State untuk mengontrol apakah video sedang diputar atau belum
+    const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+
     return (
-        <div className="font-sans text-stone-800 bg-white selection:bg-pink-200 selection:text-stone-900">
+        <div className="font-sans text-stone-800 bg-white selection:bg-pink-200 selection:text-stone-900 overflow-hidden">
 
             {/* 1. HERO SECTION (EMOTIONAL HOOK) */}
             <section className="min-h-[90vh] flex items-center bg-gradient-to-br from-pink-50 via-rose-50/50 to-white pt-20 pb-16">
@@ -40,23 +44,23 @@ const Sholehah: React.FC = () => {
                                 Sholehah hadir sebagai ruang aman bagi Muslimah untuk bertumbuh dalam iman, kehidupan, dan kebahagiaan. Ruang bertumbuh untuk kamu yang ingin lebih baik setiap harinya.
                             </p>
                             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                                <a href="https://instagram.com/sholehahstory" target="_blank" rel="noreferrer" className="bg-pink-400 hover:bg-pink-500 text-white font-bold px-8 py-4 rounded-xl transition duration-300 shadow-lg shadow-pink-400/30 text-center flex items-center justify-center gap-3">
-                                <img 
+                                <a href="https://instagram.com/sholehahstory" target="_blank" rel="noreferrer" className="bg-pink-400 hover:bg-pink-500 text-white font-bold px-8 py-4 rounded-xl transition duration-300 shadow-lg shadow-pink-400/30 text-center flex items-center justify-center gap-3 group">
+                                    <img 
                                         src={igIcon} 
                                         alt="Instagram Icon" 
-                                        className="w-6 h-6 object-contain" 
+                                        className="w-6 h-6 object-contain group-hover:scale-110 transition-transform" 
                                     />
                                     <span>Follow Sekarang</span>
                                 </a>
-                                <a href="#sisterhood" className="bg-white border-2 border-pink-200 text-pink-500 hover:bg-pink-50 font-bold px-8 py-4 rounded-xl transition duration-300 text-center flex items-center justify-center gap-2 group">
-                                    <span>Temukan Sisterhood</span>
-                                    <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                                <a href="#video-bumper" className="bg-white border-2 border-pink-200 text-pink-500 hover:bg-pink-50 font-bold px-8 py-4 rounded-xl transition duration-300 text-center flex items-center justify-center gap-2 group">
+                                    <span>Tonton Video</span>
+                                    <PlayCircle size={18} className="group-hover:scale-110 transition-transform" />
                                 </a>
                             </div>
                         </div>
 
                         {/* Mockup Image / IG Feed Preview */}
-                        <div className="order-1 md:order-2 relative">
+                        <div className="order-1 md:order-2 relative w-full max-w-[450px] mx-auto md:max-w-none">
                             <div className="absolute inset-0 bg-pink-200 rounded-3xl blur-3xl opacity-50 transform translate-x-4 translate-y-4"></div>
                             <div className="bg-white p-4 rounded-3xl shadow-2xl relative z-10 border border-pink-50 h-[500px] flex flex-col">
                                 {/* Fake IG Header */}
@@ -82,7 +86,54 @@ const Sholehah: React.FC = () => {
                 </div>
             </section>
 
-            {/* 2. ABOUT SHOLEHAH */}
+            {/* 2. VIDEO BUMPER SECTION DENGAN CUSTOM COVER */}
+            <section id="video-bumper" className="py-16 md:py-24 bg-white relative">
+                <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-pink-50/50 to-transparent"></div>
+                <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div className="text-center mb-10">
+                        <h2 className="text-3xl md:text-4xl font-bold text-stone-900">
+                            Kenalan Lebih Dekat dengan <span className="text-pink-500">Sholehah Story</span>
+                        </h2>
+                        <p className="text-stone-600 mt-4 font-medium text-lg">
+                            Ruang aman bagi Muslimah untuk saling menguatkan, berbagi cerita, dan menjadi lebih baik.
+                        </p>
+                    </div>
+                    
+                    {/* Wadah Video */}
+                    <div className="relative rounded-[2rem] overflow-hidden shadow-2xl shadow-pink-500/20 border-8 border-pink-50 bg-stone-900 group aspect-video w-full">
+                        
+                        {!isVideoPlaying ? (
+                            <div 
+                                className="absolute inset-0 w-full h-full flex items-center justify-center bg-black/20 group-hover:bg-black/10 transition-all duration-300 z-10 cursor-pointer"
+                                onClick={() => setIsVideoPlaying(true)}
+                            >
+                                {/* Mengambil Thumbnail asli dari YouTube secara otomatis berdasarkan ID: Svzv2OXYTyc */}
+                                <img 
+                                    src="https://img.youtube.com/vi/Svzv2OXYTyc/maxresdefault.jpg" 
+                                    alt="Cover Bumper Sholehah"
+                                    className="absolute inset-0 w-full h-full object-cover -z-10"
+                                />
+                                {/* Tombol Play Custom Kita Sendiri */}
+                                <div className="w-20 h-20 md:w-24 md:h-24 bg-pink-500/90 rounded-full flex items-center justify-center text-white shadow-xl shadow-pink-500/50 group-hover:scale-110 transition-transform backdrop-blur-sm">
+                                    <PlayCircle size={48} className="ml-1" />
+                                </div>
+                            </div>
+                        ) : (
+                            <iframe 
+                                className="absolute inset-0 w-full h-full"
+                                src="https://www.youtube.com/embed/Svzv2OXYTyc?autoplay=1&rel=0&modestbranding=1" 
+                                title="Bumper Sholehah" 
+                                frameBorder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                allowFullScreen
+                            ></iframe>
+                        )}
+
+                    </div>
+                </div>
+            </section>
+
+            {/* 3. ABOUT SHOLEHAH */}
             <section className="py-24 bg-white text-center">
                 <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-center mb-6">
@@ -97,12 +148,12 @@ const Sholehah: React.FC = () => {
                 </div>
             </section>
 
-            {/* 3. PILAR KEHIDUPAN MUSLIMAH */}
+            {/* 4. PILAR KEHIDUPAN MUSLIMAH */}
             <section className="py-20 bg-rose-50/30">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-16">
                         <h2 className="text-3xl font-bold text-stone-800">Nilai yang Kami Bawa</h2>
-                        <p className="text-stone-500 mt-4">Pondasi utama untuk menjadi versi terbaik dirimu</p>
+                        <p className="text-stone-500 mt-4 text-lg">Pondasi utama untuk menjadi versi terbaik dirimu</p>
                     </div>
 
                     <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -112,8 +163,8 @@ const Sholehah: React.FC = () => {
                             { icon: <Users size={32} />, title: "Relationship", desc: "Menjaga keharmonisan pernikahan, keluarga, dan pergaulan yang membawa berkah." },
                             { icon: <Leaf size={32} />, title: "Mental & Emotion", desc: "Ruang untuk healing, memaafkan, self-love, dan menata emosi agar lebih stabil." }
                         ].map((pillar, idx) => (
-                            <div key={idx} className="bg-white p-8 rounded-2xl shadow-sm border border-pink-100 hover:shadow-md hover:-translate-y-1 transition-all duration-300 group text-center md:text-left">
-                                <div className="mb-6 bg-pink-50 w-16 h-16 rounded-xl flex items-center justify-center text-pink-400 mx-auto md:mx-0 group-hover:bg-pink-400 group-hover:text-white transition-colors">
+                            <div key={idx} className="bg-white p-8 rounded-3xl shadow-sm border border-pink-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group text-center md:text-left cursor-default">
+                                <div className="mb-6 bg-pink-50 w-16 h-16 rounded-2xl flex items-center justify-center text-pink-400 mx-auto md:mx-0 group-hover:bg-pink-400 group-hover:text-white transition-colors group-hover:scale-110">
                                     {pillar.icon}
                                 </div>
                                 <h3 className="text-xl font-bold text-pink-500 mb-3">{pillar.title}</h3>
@@ -124,13 +175,13 @@ const Sholehah: React.FC = () => {
                 </div>
             </section>
 
-            {/* 4. CONTENT HIGHLIGHT (FEED MUSLIMAH) */}
+            {/* 5. CONTENT HIGHLIGHT (FEED MUSLIMAH) */}
             <section className="py-24 bg-white">
                 <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-end mb-10">
                         <div>
                             <h2 className="text-3xl font-bold text-stone-800">Jurnal Muslimah</h2>
-                            <p className="text-stone-500 mt-2">Dosis inspirasi harian untuk melembutkan hati</p>
+                            <p className="text-stone-500 mt-2 text-lg">Dosis inspirasi harian untuk melembutkan hati</p>
                         </div>
                         <a href="https://instagram.com/sholehahstory" target="_blank" rel="noreferrer" className="text-pink-500 font-bold hover:underline hidden md:flex items-center gap-2">
                             Lihat di Instagram <ArrowRight size={18} />
@@ -139,14 +190,14 @@ const Sholehah: React.FC = () => {
 
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
                         {[1, 2, 3, 4, 5, 6].map((item) => (
-                            <div key={item} className="aspect-square bg-pink-50 rounded-2xl overflow-hidden group relative cursor-pointer border border-pink-100">
+                            <div key={item} className="aspect-square bg-pink-50 rounded-3xl overflow-hidden group relative cursor-pointer border border-pink-100">
                                 <div className="absolute inset-0 bg-gradient-to-tr from-pink-100/50 to-white flex items-center justify-center text-pink-300/80 font-medium p-4 text-center text-xs">
                                     [Konten Estetik {item}]
                                 </div>
-                                <div className="absolute inset-0 bg-stone-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                                    <div className="text-white font-bold flex items-center gap-2">
-                                        <Heart size={20} className="fill-white" /> 
-                                        <span>5.2K</span>
+                                <div className="absolute inset-0 bg-stone-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-sm">
+                                    <div className="text-white font-bold flex items-center gap-2 scale-75 group-hover:scale-100 transition-transform">
+                                        <Heart size={24} className="fill-white" /> 
+                                        <span className="text-lg">5.2K</span>
                                     </div>
                                 </div>
                             </div>
@@ -155,32 +206,32 @@ const Sholehah: React.FC = () => {
                 </div>
             </section>
 
-            {/* 5. CALL TO ACTION FINAL */}
+            {/* 6. CALL TO ACTION FINAL */}
             <section className="py-24 bg-rose-50 text-center relative overflow-hidden">
                 <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                    <h2 className="text-3xl md:text-4xl font-bold mb-6 text-stone-800">
+                    <h2 className="text-4xl md:text-5xl font-extrabold mb-6 text-stone-800 leading-tight">
                         Yuk Bertumbuh Bersama
                     </h2>
-                    <p className="text-stone-600 text-lg mb-10 leading-relaxed">
+                    <p className="text-stone-600 text-lg mb-10 leading-relaxed max-w-2xl mx-auto font-medium">
                         Mulai perjalanan menjadi Muslimah terbaik versi dirimu hari ini. Kami menunggu kehadiranmu di dalam lingkaran kebaikan ini.
                     </p>
                     <a 
                         href="https://instagram.com/sholehahstory" 
                         target="_blank" 
                         rel="noreferrer" 
-                        className="inline-flex items-center gap-4 bg-pink-400 text-white font-bold px-10 py-5 rounded-2xl text-xl hover:bg-pink-500 transition shadow-2xl shadow-pink-400/40"
+                        className="inline-flex items-center justify-center gap-4 bg-pink-400 text-white font-bold px-10 py-5 rounded-2xl text-xl hover:bg-pink-500 hover:scale-105 transition-all shadow-2xl shadow-pink-400/40 w-full sm:w-auto"
                     >
                         <img 
                             src={igIcon} 
                             alt="IG" 
-                            className="w-8 h-8 object-contain" 
+                            className="w-10 h-10 object-contain" 
                         />
-                        <span>Follow @sholehahstory Sekarang</span>
+                        <span>Follow @sholehahstory</span>
                     </a>
                 </div>
                 {/* Decorative Elements */}
-                <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-64 h-64 bg-pink-200/30 rounded-full blur-3xl"></div>
-                <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 w-64 h-64 bg-pink-300/20 rounded-full blur-3xl"></div>
+                <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-80 h-80 bg-pink-200/30 rounded-full blur-[100px]"></div>
+                <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 w-80 h-80 bg-pink-300/20 rounded-full blur-[100px]"></div>
             </section>
 
         </div>

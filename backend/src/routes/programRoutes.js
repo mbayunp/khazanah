@@ -2,7 +2,8 @@
 const express = require('express');
 const router = express.Router();
 const upload = require('../middleware/upload');
-const { getAllPrograms, getProgramById, createProgram, updateProgram, deleteProgram, getProgramBySlug } = require('../controllers/programController');
+const programController = require('../controllers/programController');
+const { getAllPrograms, getProgramById, createProgram, updateProgram, deleteProgram, getProgramBySlug, getProgramComments, addProgramComment } = require('../controllers/programController');
 
 // Helper untuk menangani error Multer agar server tidak crash
 const uploadMiddleware = (req, res, next) => {
@@ -26,5 +27,7 @@ router.get('/:id', getProgramById);
 router.post('/', uploadMiddleware, createProgram);
 router.put('/:id', uploadMiddleware, updateProgram);
 router.delete('/:id', deleteProgram);
+router.get('/:id/comments', programController.getProgramComments);
+router.post('/:id/comments', programController.addProgramComment);
 
 module.exports = router;

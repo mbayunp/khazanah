@@ -14,7 +14,9 @@ import {
     X,
     Globe,
     ChevronDown,
-    ChevronUp
+    ChevronUp,
+    MessageSquare,
+    FileText // <-- Tambahan ikon untuk Artikel
 } from 'lucide-react';
 import Swal from 'sweetalert2';
 import logo from '../../assets/logo.png';
@@ -128,6 +130,29 @@ const AdminLayout: React.FC = () => {
                     >
                         <ShieldHalf size={20} />
                         <span>Community Leaders</span>
+                    </Link>
+
+                    <Link
+                        to="/admin/ruang"
+                        onClick={() => setIsSidebarOpen(false)}
+                        className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${
+                            isActive('/admin/ruang') ? 'bg-khazanah-green text-white font-bold shadow-lg shadow-khazanah-green/20' : 'text-gray-300 hover:bg-khazanah-green/20 hover:text-white'
+                        }`}
+                    >
+                        <MessageSquare size={20} />
+                        <span>Ruang Curhat</span>
+                    </Link>
+
+                    {/* MENU BARU: ARTICLES */}
+                    <Link
+                        to="/admin/articles"
+                        onClick={() => setIsSidebarOpen(false)}
+                        className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${
+                            isActive('/admin/articles') ? 'bg-khazanah-green text-white font-bold shadow-lg shadow-khazanah-green/20' : 'text-gray-300 hover:bg-khazanah-green/20 hover:text-white'
+                        }`}
+                    >
+                        <FileText size={20} />
+                        <span>Articles</span>
                     </Link>
 
                     <Link

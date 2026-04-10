@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
-import { Save, ArrowLeft, UploadCloud, ImageIcon } from 'lucide-react';
+import { Save, ArrowLeft, UploadCloud, ImageIcon, Loader2 } from 'lucide-react';
 import Swal from 'sweetalert2';
 
 const ProgramForm: React.FC = () => {
@@ -15,15 +15,21 @@ const ProgramForm: React.FC = () => {
     // State khusus untuk File Gambar
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<string | null>(null);
+    
+    // State Loading untuk mencegah double-submit
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
         if (isEdit) {
             fetch(`http://localhost:5000/api/programs/${id}`)
                 .then(res => res.json())
                 .then(data => {
-                    const formattedDate = new Date(data.date).toISOString().slice(0, 16);
-                    setFormData({ ...data, date: formattedDate });
-                    // Tampilkan gambar lama jika ada
+                    if (data.date) {
+                        const formattedDate = new Date(data.date).toISOString().slice(0, 16);
+                        setFormData({ ...data, date: formattedDate });
+                    } else {
+                        setFormData(data);
+                    }
                     if (data.image) setImagePreview(`http://localhost:5000${data.image}`);
                 });
         }
@@ -34,63 +40,63 @@ const ProgramForm: React.FC = () => {
     };
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-        if (file.size > 5 * 1024 * 1024) {
-            Swal.fire('File Terlalu Besar', 'Maksimal ukuran gambar adalah 5MB', 'error');
-            e.target.value = '';
-            return;
+        const file = e.target.files?.[0];
+        if (file) {
+            if (file.size > 5 * 1024 * 1024) {
+                Swal.fire('File Terlalu Besar', 'Maksimal ukuran gambar adalah 5MB', 'error');
+                e.target.value = '';
+                return;
+            }
+            setImageFile(file);
+            setImagePreview(URL.createObjectURL(file));
         }
-        setImageFile(file);
-        setImagePreview(URL.createObjectURL(file));
-    }
-};
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const url = isEdit ? `http://localhost:5000/api/programs/${id}` : 'http://localhost:5000/api/programs';
-    const method = isEdit ? 'PUT' : 'POST';
+        e.preventDefault();
+        setIsSubmitting(true); // Kunci tombol simpan
 
-    const data = new FormData();
-    data.append('title', formData.title);
-    data.append('category', formData.category);
-    data.append('description', formData.description || '');
-    data.append('date', formData.date);
-    data.append('location', formData.location);
-    data.append('quota', String(formData.quota || 0));
-    data.append('status', formData.status);
+        const url = isEdit ? `http://localhost:5000/api/programs/${id}` : 'http://localhost:5000/api/programs';
+        const method = isEdit ? 'PUT' : 'POST';
 
-    if (imageFile) {
-        data.append('image', imageFile);
-    }
+        const data = new FormData();
+        data.append('title', formData.title);
+        data.append('category', formData.category);
+        data.append('description', formData.description || '');
+        data.append('date', formData.date);
+        data.append('location', formData.location);
+        data.append('quota', String(formData.quota || 0));
+        data.append('status', formData.status);
 
-    try {
-        const response = await fetch(url, {
-            method,
-            body: data 
-        });
-
-        // Cek dulu apakah responsenya JSON
-        const contentType = response.headers.get("content-type");
-        if (contentType && contentType.indexOf("application/json") !== -1) {
-            const result = await response.json();
-            if (response.ok) {
-                Swal.fire('Sukses!', result.message, 'success');
-                navigate('/admin/programs');
-            } else {
-                Swal.fire('Error', result.message || 'Gagal menyimpan', 'error');
-            }
-        } else {
-            // Jika bukan JSON (berarti HTML Error 500 mentah)
-            const textError = await response.text();
-            console.error("Server HTML Error:", textError);
-            Swal.fire('Server Error', 'Terjadi kesalahan sistem di Backend. Cek terminal node.js Anda.', 'error');
+        if (imageFile) {
+            data.append('image', imageFile);
         }
-    } catch (error) {
-        console.error("Fetch Error:", error);
-        Swal.fire('Error', 'Koneksi gagal.', 'error');
-    }
-};
+
+        try {
+            const response = await fetch(url, { method, body: data });
+            const contentType = response.headers.get("content-type");
+            
+            if (contentType && contentType.indexOf("application/json") !== -1) {
+                const result = await response.json();
+                if (response.ok) {
+                    Swal.fire('Sukses!', result.message, 'success');
+                    navigate('/admin/programs');
+                } else {
+                    // Tampilkan pesan error spesifik dari backend (misal: Judul sudah ada)
+                    Swal.fire('Oops!', result.message || 'Gagal menyimpan program', 'warning');
+                }
+            } else {
+                const textError = await response.text();
+                console.error("Server HTML Error:", textError);
+                Swal.fire('Server Error', 'Terjadi kesalahan sistem di Backend. Cek terminal node.js Anda.', 'error');
+            }
+        } catch (error) {
+            console.error("Fetch Error:", error);
+            Swal.fire('Error', 'Koneksi ke server gagal.', 'error');
+        } finally {
+            setIsSubmitting(false); // Buka kunci tombol simpan
+        }
+    };
 
     return (
         <div className="max-w-4xl mx-auto space-y-6 pb-10">
@@ -102,11 +108,9 @@ const ProgramForm: React.FC = () => {
             <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
                 <form onSubmit={handleSubmit} className="space-y-6">
                     
-                    {/* Area Upload Gambar */}
                     <div className="mb-8">
                         <label className="block text-sm font-semibold text-gray-700 mb-3">Cover Program / Poster</label>
                         <div className="flex items-start gap-6">
-                            {/* Preview Kotak */}
                             <div className="w-48 h-48 rounded-xl bg-gray-50 border-2 border-dashed border-gray-300 flex items-center justify-center overflow-hidden relative shrink-0">
                                 {imagePreview ? (
                                     <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
@@ -118,14 +122,13 @@ const ProgramForm: React.FC = () => {
                                 )}
                             </div>
                             
-                            {/* Input File */}
                             <div className="flex-1">
                                 <div className="relative group cursor-pointer">
                                     <input type="file" accept="image/*" onChange={handleImageChange} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
                                     <div className="bg-khazanah-light/30 border border-khazanah-green/20 rounded-xl p-6 text-center group-hover:bg-khazanah-light transition">
                                         <UploadCloud size={32} className="mx-auto mb-2 text-khazanah-green" />
                                         <p className="text-sm font-bold text-khazanah-dark mb-1">Klik atau seret file ke sini</p>
-                                        <p className="text-xs text-gray-500">Maksimal 2MB. Format JPG, PNG.</p>
+                                        <p className="text-xs text-gray-500">Maksimal 5MB. Format JPG, PNG.</p>
                                     </div>
                                 </div>
                             </div>
@@ -182,8 +185,16 @@ const ProgramForm: React.FC = () => {
 
                     <div className="pt-6 border-t border-gray-100 flex justify-end gap-3 mt-8">
                         <Link to="/admin/programs" className="px-6 py-3 font-semibold text-gray-600 hover:bg-gray-100 rounded-xl transition">Batal</Link>
-                        <button type="submit" className="bg-khazanah-green text-white px-8 py-3 rounded-xl font-bold hover:bg-khazanah-dark transition shadow-lg shadow-khazanah-green/20 flex items-center gap-2">
-                            <Save size={20} /> Simpan Program
+                        <button 
+                            type="submit" 
+                            disabled={isSubmitting}
+                            className="bg-khazanah-green text-white px-8 py-3 rounded-xl font-bold hover:bg-khazanah-dark transition shadow-lg shadow-khazanah-green/20 flex items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                        >
+                            {isSubmitting ? (
+                                <><Loader2 size={20} className="animate-spin" /> Menyimpan...</>
+                            ) : (
+                                <><Save size={20} /> Simpan Program</>
+                            )}
                         </button>
                     </div>
                 </form>

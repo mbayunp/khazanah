@@ -3,10 +3,11 @@ const db = require('../config/db');
 // GET Semua Program
 exports.getAllPrograms = async (req, res) => {
     try {
-        const [programs] = await db.query('SELECT * FROM programs ORDER BY created_at DESC');
+        const [programs] = await db.query('SELECT * FROM programs');
         res.json(programs);
     } catch (error) {
-        res.status(500).json({ message: 'Gagal mengambil data program', error });
+        console.error("❌ ERROR GET PROGRAMS:", error.message); 
+        res.status(500).json({ message: 'Gagal mengambil data program', error: error.message });
     }
 };
 
@@ -21,6 +22,7 @@ exports.getProgramById = async (req, res) => {
     }
 };
 
+// CREATE Program Baru
 exports.createProgram = async (req, res) => {
     try {
         const { title, category, description, date, location, quota, status } = req.body;
@@ -40,8 +42,17 @@ exports.createProgram = async (req, res) => {
 
         await db.query(query, values);
         res.status(201).json({ message: 'Program berhasil dibuat!' });
+
     } catch (error) {
-        console.error("Database Error:", error); // Lihat error asli di terminal backend!
+        console.error("Database Error:", error); 
+        
+        // Menangkap Error Duplikat Judul/Slug
+        if (error.code === 'ER_DUP_ENTRY') {
+            return res.status(400).json({ 
+                message: 'Judul program ini sudah pernah digunakan. Silakan gunakan judul lain atau tambahkan angka di belakangnya.' 
+            });
+        }
+
         res.status(500).json({ 
             message: 'Gagal membuat program di database', 
             error: error.message 
@@ -69,8 +80,18 @@ exports.updateProgram = async (req, res) => {
             );
         }
         res.json({ message: 'Program berhasil diperbarui!' });
+
     } catch (error) {
-        res.status(500).json({ message: 'Gagal memperbarui program', error });
+        console.error("Database Error:", error);
+
+        // Menangkap Error Duplikat Judul/Slug saat Edit
+        if (error.code === 'ER_DUP_ENTRY') {
+            return res.status(400).json({ 
+                message: 'Judul program ini sudah dipakai oleh program lain. Silakan ubah judulnya.' 
+            });
+        }
+
+        res.status(500).json({ message: 'Gagal memperbarui program', error: error.message });
     }
 };
 
@@ -80,16 +101,41 @@ exports.deleteProgram = async (req, res) => {
         await db.query('DELETE FROM programs WHERE id = ?', [req.params.id]);
         res.json({ message: 'Program berhasil dihapus!' });
     } catch (error) {
-        res.status(500).json({ message: 'Gagal menghapus program', error });
+        res.status(500).json({ message: 'Gagal menghapus program', error: error.message });
     }
 };
 
+// GET Program By Slug (Untuk Halaman Detail Publik)
 exports.getProgramBySlug = async (req, res) => {
     try {
         const [program] = await db.query('SELECT * FROM programs WHERE slug = ?', [req.params.slug]);
         if (program.length === 0) return res.status(404).json({ message: 'Program tidak ditemukan' });
         res.json(program[0]);
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error });
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
+};
+
+// --- FITUR KOMENTAR PROGRAM ---
+exports.getProgramComments = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const [rows] = await db.query("SELECT * FROM program_comments WHERE program_id = ? ORDER BY created_at ASC", [id]);
+        res.json(rows);
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
+};
+
+exports.addProgramComment = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { name, text } = req.body;
+        const nameToSave = name ? name : 'Hamba Allah';
+
+        await db.query("INSERT INTO program_comments (program_id, name, text) VALUES (?, ?, ?)", [id, nameToSave, text]);
+        res.status(201).json({ message: 'Komentar berhasil ditambahkan!' });
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error: error.message });
     }
 };

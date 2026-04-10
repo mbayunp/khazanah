@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
     Sparkles, 
     Leaf, 
@@ -7,15 +7,19 @@ import {
     HeartHandshake, 
     BookOpen, 
     ArrowRight, 
-    Users
+    Users,
+    PlayCircle
 } from 'lucide-react';
 // Import Aset Gambar
 import logoJofisah from '../../assets/jofisah.png';
 import igIcon from '../../assets/ig.png';
 
 const Jofisah: React.FC = () => {
+    // State untuk mengontrol apakah video sedang diputar atau belum
+    const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+
     return (
-        <div className="font-sans text-gray-800 bg-white selection:bg-teal-200 selection:text-teal-900">
+        <div className="font-sans text-gray-800 bg-white selection:bg-teal-200 selection:text-teal-900 overflow-hidden">
             
             {/* 1. HERO SECTION */}
             <section className="min-h-[90vh] flex items-center bg-gradient-to-br from-teal-50 via-teal-100/30 to-white pt-24 pb-16">
@@ -41,18 +45,18 @@ const Jofisah: React.FC = () => {
                                 Jofisah hadir untuk menemani perjalanan iman, self-growth, dan kehidupan yang lebih mindful. Mari merawat hati dan pikiran bersama.
                             </p>
                             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                                <a href="https://instagram.com/jofisah.id" target="_blank" rel="noreferrer" className="bg-teal-500 hover:bg-teal-600 text-white font-bold px-8 py-4 rounded-xl transition duration-300 shadow-lg shadow-teal-500/30 text-center flex items-center justify-center gap-3">
-                                    <img src={igIcon} alt="Instagram" className="w-10 h-10" />
+                                <a href="https://instagram.com/jofisah.id" target="_blank" rel="noreferrer" className="bg-teal-500 hover:bg-teal-600 text-white font-bold px-8 py-4 rounded-xl transition duration-300 shadow-lg shadow-teal-500/30 text-center flex items-center justify-center gap-3 group">
+                                    <img src={igIcon} alt="Instagram" className="w-10 h-10 group-hover:scale-110 transition-transform" />
                                     <span>Follow Sekarang</span>
                                 </a>
-                                <a href="#content" className="bg-white border-2 border-teal-200 text-teal-600 hover:bg-teal-50 font-bold px-8 py-4 rounded-xl transition duration-300 text-center flex items-center justify-center gap-2 group">
-                                    <span>Jelajahi Konten</span>
-                                    <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                                <a href="#video-bumper" className="bg-white border-2 border-teal-200 text-teal-600 hover:bg-teal-50 font-bold px-8 py-4 rounded-xl transition duration-300 text-center flex items-center justify-center gap-2 group">
+                                    <span>Tonton Video</span>
+                                    <PlayCircle size={18} className="group-hover:scale-110 transition-transform" />
                                 </a>
                             </div>
                         </div>
 
-                        {/* Kolom Image (Mockup) - Sekarang Muncul Di Bawah pada Mobile */}
+                        {/* Kolom Image (Mockup) */}
                         <div className="relative w-full max-w-[450px] mx-auto md:max-w-none">
                             <div className="absolute inset-0 bg-teal-300 rounded-3xl blur-3xl opacity-30 transform translate-x-4 translate-y-4"></div>
                             <div className="bg-white p-4 rounded-3xl shadow-2xl relative z-10 border border-teal-50 h-[450px] md:h-[500px] flex flex-col">
@@ -66,10 +70,10 @@ const Jofisah: React.FC = () => {
                                     </div>
                                 </div>
                                 <div className="grid grid-cols-2 gap-2 flex-grow text-center">
-                                    <div className="bg-teal-50 rounded-xl flex items-center justify-center text-teal-200 font-bold italic text-[10px] md:text-xs p-2">Self Reflection</div>
-                                    <div className="bg-orange-50 rounded-xl flex items-center justify-center text-orange-200 font-bold italic text-[10px] md:text-xs p-2">Daily Reminder</div>
-                                    <div className="bg-gray-50 rounded-xl flex items-center justify-center text-gray-200 font-bold italic text-[10px] md:text-xs p-2">Mindfulness</div>
-                                    <div className="bg-teal-100/50 rounded-xl flex items-center justify-center text-teal-300 font-bold italic text-[10px] md:text-xs p-2">Spiritual Growth</div>
+                                    <div className="bg-teal-50 rounded-xl flex items-center justify-center text-teal-400 font-bold italic text-[10px] md:text-xs p-2">Self Reflection</div>
+                                    <div className="bg-orange-50 rounded-xl flex items-center justify-center text-orange-400 font-bold italic text-[10px] md:text-xs p-2">Daily Reminder</div>
+                                    <div className="bg-gray-50 rounded-xl flex items-center justify-center text-gray-400 font-bold italic text-[10px] md:text-xs p-2">Mindfulness</div>
+                                    <div className="bg-teal-100/50 rounded-xl flex items-center justify-center text-teal-500 font-bold italic text-[10px] md:text-xs p-2">Spiritual Growth</div>
                                 </div>
                             </div>
                         </div>
@@ -77,8 +81,56 @@ const Jofisah: React.FC = () => {
                 </div>
             </section>
 
-            {/* 2. ABOUT JOFISAH */}
-            <section className="py-24 bg-white text-center">
+            {/* 2. VIDEO BUMPER SECTION DENGAN CUSTOM COVER */}
+            <section id="video-bumper" className="py-16 md:py-24 bg-white relative">
+                <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-teal-50/50 to-transparent"></div>
+                <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div className="text-center mb-10">
+                        <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
+                            Kenalan Lebih Dekat dengan <span className="text-teal-500">Jofisah</span>
+                        </h2>
+                        <p className="text-gray-600 mt-4 font-medium text-lg">
+                            Rumah bagi para jomblo fii sabilillah untuk saling menjaga dan menguatkan.
+                        </p>
+                    </div>
+                    
+                    {/* Wadah Video */}
+                    <div className="relative rounded-[2rem] overflow-hidden shadow-2xl shadow-teal-500/20 border-8 border-teal-50 bg-teal-900 group aspect-video w-full">
+                        
+                        {/* Logika: Jika belum di-play, tampilkan Cover Custom. Jika sudah, tampilkan Iframe YouTube */}
+                        {!isVideoPlaying ? (
+                            <div 
+                                className="absolute inset-0 w-full h-full flex items-center justify-center bg-black/20 group-hover:bg-black/10 transition-all duration-300 z-10 cursor-pointer"
+                                onClick={() => setIsVideoPlaying(true)}
+                            >
+                                {/* Mengambil Thumbnail asli dari YouTube secara otomatis */}
+                                <img 
+                                    src="https://img.youtube.com/vi/nZJI3Gu6tmA/maxresdefault.jpg" 
+                                    alt="Cover Bumper Jofisah"
+                                    className="absolute inset-0 w-full h-full object-cover -z-10"
+                                />
+                                {/* Tombol Play Custom Kita Sendiri */}
+                                <div className="w-20 h-20 md:w-24 md:h-24 bg-teal-500/90 rounded-full flex items-center justify-center text-white shadow-xl shadow-teal-500/50 group-hover:scale-110 transition-transform backdrop-blur-sm">
+                                    <PlayCircle size={48} className="ml-1" />
+                                </div>
+                            </div>
+                        ) : (
+                            <iframe 
+                                className="absolute inset-0 w-full h-full"
+                                src="https://www.youtube.com/embed/nZJI3Gu6tmA?autoplay=1&rel=0&modestbranding=1" 
+                                title="Bumper Jofisah" 
+                                frameBorder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                allowFullScreen
+                            ></iframe>
+                        )}
+
+                    </div>
+                </div>
+            </section>
+
+            {/* 3. ABOUT JOFISAH */}
+            <section className="py-20 md:py-24 bg-white text-center">
                 <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-center mb-6">
                         <div className="p-4 bg-teal-50 rounded-2xl text-teal-500">
@@ -92,12 +144,12 @@ const Jofisah: React.FC = () => {
                 </div>
             </section>
 
-            {/* 3. CONTENT PILLARS */}
-            <section className="py-20 bg-teal-50/40">
+            {/* 4. CONTENT PILLARS */}
+            <section className="py-20 md:py-24 bg-teal-50/40">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-16">
                         <h2 className="text-3xl font-bold text-gray-900">Fokus Pembahasan Kami</h2>
-                        <p className="text-gray-600 mt-4">Pilar utama perjalanan self-growth di Jofisah</p>
+                        <p className="text-gray-600 mt-4 text-lg">Pilar utama perjalanan self-growth di Jofisah</p>
                     </div>
 
                     <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -107,8 +159,8 @@ const Jofisah: React.FC = () => {
                             { icon: <HeartHandshake size={32} />, title: "Relationship", desc: "Edukasi pra-nikah, cinta karena Allah, dan pergaulan yang sehat." },
                             { icon: <BookOpen size={32} />, title: "Stories", desc: "Kisah nyata nan inspiratif dari perjalanan hijrah dan kehidupan Muslimah." }
                         ].map((pillar, idx) => (
-                            <div key={idx} className="bg-white p-8 rounded-2xl shadow-sm border border-teal-100 hover:shadow-md hover:-translate-y-1 transition-all duration-300 group text-center md:text-left">
-                                <div className="mb-6 bg-teal-50 w-16 h-16 rounded-xl flex items-center justify-center text-teal-500 mx-auto md:mx-0 group-hover:bg-teal-500 group-hover:text-white transition-colors">
+                            <div key={idx} className="bg-white p-8 rounded-3xl shadow-sm border border-teal-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group text-center md:text-left cursor-default">
+                                <div className="mb-6 bg-teal-50 w-16 h-16 rounded-2xl flex items-center justify-center text-teal-500 mx-auto md:mx-0 group-hover:bg-teal-500 group-hover:text-white transition-colors group-hover:scale-110">
                                     {pillar.icon}
                                 </div>
                                 <h3 className="text-xl font-bold text-teal-600 mb-3">{pillar.title}</h3>
@@ -119,13 +171,13 @@ const Jofisah: React.FC = () => {
                 </div>
             </section>
 
-            {/* 4. HIGHLIGHT CONTENT */}
-            <section id="content" className="py-24 bg-white">
+            {/* 5. HIGHLIGHT CONTENT */}
+            <section id="content" className="py-20 md:py-24 bg-white">
                 <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-end mb-10">
                         <div>
                             <h2 className="text-3xl font-bold text-gray-900">Sapaan Harian Jofisah</h2>
-                            <p className="text-gray-600 mt-2">Cuplikan konten yang relate dengan keseharianmu</p>
+                            <p className="text-gray-600 mt-2 text-lg">Cuplikan konten yang relate dengan keseharianmu</p>
                         </div>
                         <a href="https://instagram.com/jofisah.id" target="_blank" rel="noreferrer" className="text-teal-600 font-bold hover:underline hidden md:flex items-center gap-2">
                             Lihat di Instagram <ArrowRight size={18} />
@@ -134,14 +186,14 @@ const Jofisah: React.FC = () => {
 
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
                         {[1, 2, 3, 4, 5, 6].map((item) => (
-                            <div key={item} className="aspect-square bg-gray-100 rounded-2xl overflow-hidden group relative cursor-pointer border border-gray-100">
+                            <div key={item} className="aspect-square bg-gray-100 rounded-3xl overflow-hidden group relative cursor-pointer border border-gray-100">
                                 <div className="absolute inset-0 bg-gradient-to-tr from-teal-50 to-white flex items-center justify-center text-teal-300/60 font-bold text-[10px] md:text-xs p-4 text-center">
                                     [Konten Jofisah {item}]
                                 </div>
-                                <div className="absolute inset-0 bg-teal-900/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                                    <div className="text-white font-bold flex items-center gap-2">
-                                        <Heart size={20} className="fill-white" />
-                                        <span>2.5K</span>
+                                <div className="absolute inset-0 bg-teal-900/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-sm">
+                                    <div className="text-white font-bold flex items-center gap-2 scale-75 group-hover:scale-100 transition-transform">
+                                        <Heart size={24} className="fill-white" />
+                                        <span className="text-lg">2.5K</span>
                                     </div>
                                 </div>
                             </div>
@@ -150,10 +202,10 @@ const Jofisah: React.FC = () => {
                 </div>
             </section>
 
-            {/* 5. CALL TO ACTION FINAL */}
+            {/* 6. CALL TO ACTION FINAL */}
             <section className="py-24 bg-teal-50 text-center relative overflow-hidden">
                 <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                    <h2 className="text-3xl md:text-5xl font-bold mb-6 text-teal-800 leading-tight">
+                    <h2 className="text-4xl md:text-5xl font-extrabold mb-6 text-teal-800 leading-tight">
                         Mulai Perjalanan Self-Growth Kamu Hari Ini
                     </h2>
                     <p className="text-gray-600 text-lg mb-10 leading-relaxed max-w-2xl mx-auto font-medium">
@@ -163,14 +215,14 @@ const Jofisah: React.FC = () => {
                         href="https://instagram.com/jofisah.id" 
                         target="_blank" 
                         rel="noreferrer" 
-                        className="inline-flex items-center gap-4 bg-teal-500 text-white font-bold px-10 py-5 rounded-2xl text-xl hover:bg-teal-600 transition shadow-2xl shadow-teal-500/30"
+                        className="inline-flex items-center justify-center gap-4 bg-teal-500 text-white font-bold px-10 py-5 rounded-2xl text-xl hover:bg-teal-600 hover:scale-105 transition-all shadow-2xl shadow-teal-500/30 w-full sm:w-auto"
                     >
                         <img src={igIcon} alt="IG" className="w-10 h-10" />
-                        <span>Follow @jofisah.id di Instagram</span>
+                        <span>Follow @jofisah.id</span>
                     </a>
                 </div>
-                <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-64 h-64 bg-teal-200/20 rounded-full blur-3xl"></div>
-                <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 w-64 h-64 bg-orange-100/30 rounded-full blur-3xl"></div>
+                <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-80 h-80 bg-teal-200/30 rounded-full blur-[100px]"></div>
+                <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 w-80 h-80 bg-orange-100/40 rounded-full blur-[100px]"></div>
             </section>
         </div>
     );
