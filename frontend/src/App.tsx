@@ -11,6 +11,8 @@ import ProgramList from './pages/admin/programs/ProgramList';
 import ProgramForm from './pages/admin/programs/ProgramForm';
 import RuangAdmin from './pages/admin/RuangAdmin';
 import ArticleAdmin from './pages/admin/ArticleAdmin';
+import TasksAdmin from './pages/admin/TasksAdmin';
+import SpeakersAdmin from './pages/admin/SpeakersAdmin';
 
 function App() {
   return (
@@ -35,6 +37,12 @@ function App() {
 
             {/* Rute Moderasi Artikel */}
             <Route path="articles" element={<ArticleAdmin />} />
+
+            {/* Rute Manajemen Tugas */}
+            <Route path="tasks" element={<TasksAdmin />} />
+
+            {/* Rute Manajemen Pembicara */}
+            <Route path="speakers" element={<SpeakersAdmin />} />
 
         </Route>
       </Routes>
