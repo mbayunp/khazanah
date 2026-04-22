@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Send, User, MessageSquare, ChevronDown, ChevronUp, Sparkles, Edit2, Trash2, Clock, Loader2 } from 'lucide-react';
+import { Send, User, MessageSquare, Sparkles, Edit2, Trash2, Clock, Loader2 } from 'lucide-react';
 import Swal from 'sweetalert2';
 
 interface Curhatan {
@@ -22,30 +22,18 @@ interface Comment {
 const RuangPublic: React.FC = () => {
     const [curhatans, setCurhatans] = useState<Curhatan[]>([]);
     const [isLoading, setIsLoading] = useState(true);
-<<<<<<< HEAD
 
     // State Form Curhat
     const [name, setName] = useState('');
     const [message, setMessage] = useState('');
 
-=======
-    
-    // State Form Curhat
-    const [name, setName] = useState('');
-    const [message, setMessage] = useState('');
-    
->>>>>>> 664b17580807ab2abe3415669c17297d2005b759
     // State Komentar & Edit
     const [expandedId, setExpandedId] = useState<number | null>(null);
     const [comments, setComments] = useState<{ [key: number]: Comment[] }>({});
     const [editingId, setEditingId] = useState<number | null>(null);
     const [editValue, setEditValue] = useState('');
     const [now, setNow] = useState(Date.now());
-<<<<<<< HEAD
 
-=======
-    
->>>>>>> 664b17580807ab2abe3415669c17297d2005b759
     // State Balasan
     const [replyName, setReplyName] = useState('');
     const [replyText, setReplyText] = useState('');
@@ -59,22 +47,14 @@ const RuangPublic: React.FC = () => {
         try {
             const res = await fetch('http://localhost:5000/api/ruang');
             const data = await res.json();
-<<<<<<< HEAD
 
-=======
-            
->>>>>>> 664b17580807ab2abe3415669c17297d2005b759
             // Untuk setiap curhatan, kita fetch jumlah komentarnya agar angka di tombol akurat
             const enrichedData = await Promise.all(data.map(async (c: any) => {
                 const commRes = await fetch(`http://localhost:5000/api/ruang/${c.id}/comments`);
                 const commData = await commRes.json();
                 return { ...c, comment_count: commData.length };
             }));
-<<<<<<< HEAD
 
-=======
-            
->>>>>>> 664b17580807ab2abe3415669c17297d2005b759
             setCurhatans(enrichedData);
         } catch (err) {
             console.error(err);
@@ -93,7 +73,6 @@ const RuangPublic: React.FC = () => {
     }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
-<<<<<<< HEAD
         e.preventDefault();
         setIsSubmitting(true);
         try {
@@ -118,32 +97,6 @@ const RuangPublic: React.FC = () => {
             setIsSubmitting(false);
         }
     };
-=======
-    e.preventDefault();
-    setIsSubmitting(true);
-    try {
-        const res = await fetch('http://localhost:5000/api/ruang', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ sender_name: name || 'Hamba Allah', message })
-        });
-        if (res.ok) {
-            Swal.fire({
-                title: 'Alhamdulillah!',
-                text: 'Ceritamu berhasil dikirim. Tunggu persetujuan Leader agar tampil di publik ya! ✨',
-                icon: 'success',
-                confirmButtonColor: '#18703E',
-            });
-            setName('');
-            setMessage('');
-        }
-    } catch (error) {
-        Swal.fire('Oops!', 'Gagal mengirim cerita.', 'error');
-    } finally {
-        setIsSubmitting(false);
-    }
-};
->>>>>>> 664b17580807ab2abe3415669c17297d2005b759
 
     // 3. Toggle & Sync Komentar
     const toggleComments = async (curhatId: number) => {
@@ -169,19 +122,11 @@ const RuangPublic: React.FC = () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ sender_name: replyName || 'Hamba Allah', comment_text: replyText })
             });
-<<<<<<< HEAD
 
             if (res.ok) {
                 const updatedRes = await fetch(`http://localhost:5000/api/ruang/${curhatId}/comments`);
                 const updatedData = await updatedRes.json();
 
-=======
-            
-            if (res.ok) {
-                const updatedRes = await fetch(`http://localhost:5000/api/ruang/${curhatId}/comments`);
-                const updatedData = await updatedRes.json();
-                
->>>>>>> 664b17580807ab2abe3415669c17297d2005b759
                 // Tambahkan Timer Edit 20 detik hanya untuk komentar yang baru saja dikirim
                 const dataWithTimer = updatedData.map((c: any) => ({
                     ...c,
@@ -189,17 +134,10 @@ const RuangPublic: React.FC = () => {
                 }));
 
                 setComments(prev => ({ ...prev, [curhatId]: dataWithTimer }));
-<<<<<<< HEAD
 
                 // Update jumlah komentar di tombol secara real-time
                 setCurhatans(prev => prev.map(c => c.id === curhatId ? { ...c, comment_count: updatedData.length } : c));
 
-=======
-                
-                // Update jumlah komentar di tombol secara real-time
-                setCurhatans(prev => prev.map(c => c.id === curhatId ? { ...c, comment_count: updatedData.length } : c));
-                
->>>>>>> 664b17580807ab2abe3415669c17297d2005b759
                 setReplyName('');
                 setReplyText('');
                 setCooldown(30);
@@ -233,11 +171,7 @@ const RuangPublic: React.FC = () => {
     return (
         <div className="bg-[#fdfdfd] min-h-screen pt-28 pb-20 relative overflow-hidden font-sans">
             <div className="max-w-3xl mx-auto px-4 sm:px-6 relative z-10">
-<<<<<<< HEAD
 
-=======
-                
->>>>>>> 664b17580807ab2abe3415669c17297d2005b759
                 <div className="text-center mb-12">
                     <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-khazanah-light text-khazanah-green text-xs font-bold uppercase tracking-widest mb-4 border border-khazanah-green/10">
                         <Sparkles size={14} /> Ruang Publik
@@ -250,43 +184,25 @@ const RuangPublic: React.FC = () => {
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div className="relative">
                             <User className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-<<<<<<< HEAD
                             <input
                                 type="text"
                                 placeholder="Nama Anda (Opsional)"
-=======
-                            <input 
-                                type="text" 
-                                placeholder="Nama Anda (Opsional)" 
->>>>>>> 664b17580807ab2abe3415669c17297d2005b759
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                                 className="w-full pl-12 pr-4 py-4 rounded-2xl border border-gray-100 bg-gray-50 focus:bg-white focus:ring-4 focus:ring-khazanah-green/5 outline-none transition-all"
                             />
                         </div>
-<<<<<<< HEAD
                         <textarea
                             rows={3}
                             required
                             placeholder="Tulis ceritamu di sini..."
-=======
-                        <textarea 
-                            rows={3}
-                            required
-                            placeholder="Tulis ceritamu di sini..." 
->>>>>>> 664b17580807ab2abe3415669c17297d2005b759
                             value={message}
                             onChange={(e) => setMessage(e.target.value)}
                             className="w-full px-6 py-4 rounded-2xl border border-gray-100 bg-gray-50 focus:bg-white focus:ring-4 focus:ring-khazanah-green/5 outline-none resize-none transition-all"
                         ></textarea>
                         <div className="flex justify-end">
-<<<<<<< HEAD
                             <button
                                 type="submit"
-=======
-                            <button 
-                                type="submit" 
->>>>>>> 664b17580807ab2abe3415669c17297d2005b759
                                 disabled={isSubmitting}
                                 className="bg-khazanah-green text-white px-8 py-3.5 rounded-2xl font-bold hover:bg-khazanah-dark transition-all shadow-lg flex items-center gap-2 disabled:opacity-50"
                             >
@@ -312,7 +228,6 @@ const RuangPublic: React.FC = () => {
                                         <span className="text-[10px] font-bold text-gray-300 uppercase tracking-widest">{new Date(c.created_at).toLocaleDateString('id-ID')}</span>
                                     </div>
                                     <p className="mt-3 text-gray-700 leading-relaxed text-lg">{c.message}</p>
-<<<<<<< HEAD
 
                                     <button
                                         onClick={() => toggleComments(c.id)}
@@ -320,16 +235,6 @@ const RuangPublic: React.FC = () => {
                                             }`}
                                     >
                                         <MessageSquare size={16} />
-=======
-                                    
-                                    <button 
-                                        onClick={() => toggleComments(c.id)}
-                                        className={`mt-6 flex items-center gap-2 px-5 py-2 rounded-full font-bold text-sm transition-all ${
-                                            expandedId === c.id ? 'bg-khazanah-green text-white' : 'bg-gray-50 text-gray-500 hover:bg-gray-100'
-                                        }`}
-                                    >
-                                        <MessageSquare size={16} /> 
->>>>>>> 664b17580807ab2abe3415669c17297d2005b759
                                         {expandedId === c.id ? 'Tutup Diskusi' : `Lihat Diskusi (${c.comment_count})`}
                                     </button>
                                 </div>
@@ -353,11 +258,7 @@ const RuangPublic: React.FC = () => {
                                                             <span className="font-bold text-sm text-gray-900">{comment.sender_name}</span>
                                                             <div className="flex items-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
                                                                 {timeLeft > 0 && !isEditing && (
-<<<<<<< HEAD
                                                                     <button onClick={() => { setEditingId(comment.id); setEditValue(comment.comment_text) }} className="text-[10px] font-bold text-blue-500 flex items-center gap-1">
-=======
-                                                                    <button onClick={() => {setEditingId(comment.id); setEditValue(comment.comment_text)}} className="text-[10px] font-bold text-blue-500 flex items-center gap-1">
->>>>>>> 664b17580807ab2abe3415669c17297d2005b759
                                                                         <Edit2 size={12} /> Edit ({timeLeft}s)
                                                                     </button>
                                                                 )}
@@ -373,11 +274,7 @@ const RuangPublic: React.FC = () => {
                                                                 <textarea value={editValue} onChange={(e) => setEditValue(e.target.value)} className="w-full p-3 text-sm rounded-xl border border-khazanah-green outline-none bg-white" rows={2} />
                                                                 <div className="flex gap-2">
                                                                     <button onClick={() => {
-<<<<<<< HEAD
                                                                         setComments(prev => ({ ...prev, [c.id]: prev[c.id].map(com => com.id === comment.id ? { ...com, comment_text: editValue } : com) }));
-=======
-                                                                        setComments(prev => ({...prev, [c.id]: prev[c.id].map(com => com.id === comment.id ? {...com, comment_text: editValue} : com)}));
->>>>>>> 664b17580807ab2abe3415669c17297d2005b759
                                                                         setEditingId(null);
                                                                     }} className="bg-khazanah-green text-white px-3 py-1 rounded-lg text-xs font-bold">Simpan</button>
                                                                     <button onClick={() => setEditingId(null)} className="bg-gray-200 text-gray-600 px-3 py-1 rounded-lg text-xs font-bold">Batal</button>
