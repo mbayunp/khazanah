@@ -8,7 +8,11 @@ const JoinCommunity: React.FC = () => {
     return (
         <div className="bg-gray-50 min-h-screen pt-32 pb-20 selection:bg-khazanah-gold/20 selection:text-khazanah-dark font-sans text-gray-800">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<<<<<<< HEAD
+
+=======
                 
+>>>>>>> 664b17580807ab2abe3415669c17297d2005b759
                 {/* Header Section */}
                 <div className="text-center max-w-3xl mx-auto mb-16">
                     <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6 leading-tight">
@@ -20,7 +24,11 @@ const JoinCommunity: React.FC = () => {
                 </div>
 
                 <div className="grid md:grid-cols-3 gap-8">
+<<<<<<< HEAD
+
+=======
                     
+>>>>>>> 664b17580807ab2abe3415669c17297d2005b759
                     {/* CARD 1: SHOLEHAH STORY */}
                     <div className="bg-white rounded-[2.5rem] p-8 shadow-sm border border-pink-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 flex flex-col group">
                         <div className="w-20 h-20 bg-pink-50 rounded-2xl flex items-center justify-center mb-8 border border-pink-100 group-hover:scale-110 transition-transform overflow-hidden">
@@ -30,9 +38,15 @@ const JoinCommunity: React.FC = () => {
                         <p className="text-gray-600 mb-8 flex-grow leading-relaxed font-medium">
                             Wadah khusus muslimah untuk saling menguatkan, berbagi cerita inspiratif, dan belajar menjadi sebaik-baiknya perhiasan dunia.
                         </p>
+<<<<<<< HEAD
+                        <a
+                            href="/join-sholehah"
+                            target="_blank"
+=======
                         <a 
                             href="https://s.id/SahabatSholehah" 
                             target="_blank" 
+>>>>>>> 664b17580807ab2abe3415669c17297d2005b759
                             rel="noreferrer"
                             className="w-full bg-pink-500 text-white py-4 rounded-2xl font-bold text-center hover:bg-pink-600 transition shadow-lg shadow-pink-100 flex items-center justify-center gap-2 group"
                         >
@@ -49,9 +63,15 @@ const JoinCommunity: React.FC = () => {
                         <p className="text-gray-600 mb-8 flex-grow leading-relaxed font-medium">
                             Fokus pada pengembangan diri (self-growth), edukasi pra-nikah, dan ukhuwah bagi kamu yang ingin bertumbuh dalam ketaatan.
                         </p>
+<<<<<<< HEAD
+                        <a
+                            href="/join-jofisah"
+                            target="_blank"
+=======
                         <a 
                             href="https://s.id/SobatJofisah" 
                             target="_blank" 
+>>>>>>> 664b17580807ab2abe3415669c17297d2005b759
                             rel="noreferrer"
                             className="w-full bg-teal-600 text-white py-4 rounded-2xl font-bold text-center hover:bg-teal-700 transition shadow-lg shadow-teal-100 flex items-center justify-center gap-2 group"
                         >
@@ -63,24 +83,42 @@ const JoinCommunity: React.FC = () => {
                     <div className="relative bg-khazanah-dark rounded-[2.5rem] p-8 shadow-2xl hover:-translate-y-2 transition-all duration-300 flex flex-col group overflow-hidden border-2 border-khazanah-gold/30">
                         {/* Efek Kilau/Glow */}
                         <div className="absolute top-0 right-0 -mt-10 -mr-10 w-48 h-48 bg-khazanah-gold opacity-10 rounded-full blur-[100px]"></div>
+<<<<<<< HEAD
+
+=======
                         
+>>>>>>> 664b17580807ab2abe3415669c17297d2005b759
                         {/* BAGIAN YANG DIPERBAIKI: BG Putih & Tanpa Opacity */}
                         <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center mb-8 border-2 border-khazanah-gold/40 shadow-xl group-hover:scale-110 transition-transform overflow-hidden relative z-10 shadow-black/20">
                             {/* Logo asli yang Hijau-Emas, tanpa 'opacity-80' atau efek 'mix-blend' */}
                             <img src={khazanahLogo} alt="Khazanah" className="w-full h-full object-contain p-3 rounded-xl" />
                         </div>
+<<<<<<< HEAD
+
+                        <div className="inline-block bg-khazanah-gold text-khazanah-dark text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full mb-4 w-max relative z-10">
+                            Open Recruitment 2026
+                        </div>
+
+=======
                         
                         <div className="inline-block bg-khazanah-gold text-khazanah-dark text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full mb-4 w-max relative z-10">
                             Open Recruitment 2026
                         </div>
                         
+>>>>>>> 664b17580807ab2abe3415669c17297d2005b759
                         <h2 className="text-2xl font-extrabold text-white mb-4 relative z-10 tracking-tight">Khazanah Leaders</h2>
                         <p className="text-khazanah-light/70 mb-8 flex-grow leading-relaxed font-medium relative z-10">
                             Jadilah penggerak kebaikan! Ambil peran sebagai Leader untuk mengelola komunitas dan memberikan dampak lebih luas bagi umat.
                         </p>
+<<<<<<< HEAD
+                        <a
+                            href="/join-leader"
+                            target="_blank"
+=======
                         <a 
                             href="https://s.id/DaftarKhazanahLeaders2026" 
                             target="_blank" 
+>>>>>>> 664b17580807ab2abe3415669c17297d2005b759
                             rel="noreferrer"
                             className="w-full bg-khazanah-gold text-khazanah-dark py-4 rounded-2xl font-black text-center hover:bg-yellow-400 transition shadow-xl shadow-black/40 flex items-center justify-center gap-2 relative z-10 group"
                         >

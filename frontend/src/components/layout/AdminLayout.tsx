@@ -1,5 +1,18 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate, Outlet } from 'react-router-dom';
+<<<<<<< HEAD
+import {
+    LayoutDashboard,
+    FolderKanban,
+    Users,
+    ShieldHalf,
+    MicVocal,
+    ListTodo,
+    FileBarChart,
+    Settings,
+    LogOut,
+    Menu,
+=======
 import { 
     LayoutDashboard, 
     FolderKanban, 
@@ -11,21 +24,31 @@ import {
     Settings, 
     LogOut, 
     Menu, 
+>>>>>>> 664b17580807ab2abe3415669c17297d2005b759
     X,
     Globe,
     ChevronDown,
     ChevronUp,
     MessageSquare,
+<<<<<<< HEAD
+    FileText
+=======
     FileText // <-- Tambahan ikon untuk Artikel
+>>>>>>> 664b17580807ab2abe3415669c17297d2005b759
 } from 'lucide-react';
 import Swal from 'sweetalert2';
 import logo from '../../assets/logo.png';
 
 const AdminLayout: React.FC = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+<<<<<<< HEAD
+    const [isProgramMenuOpen, setIsProgramMenuOpen] = useState(true);
+
+=======
     // State untuk mengontrol dropdown menu Program
     const [isProgramMenuOpen, setIsProgramMenuOpen] = useState(true); 
     
+>>>>>>> 664b17580807ab2abe3415669c17297d2005b759
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -47,21 +70,34 @@ const AdminLayout: React.FC = () => {
         });
     };
 
+<<<<<<< HEAD
+=======
     // Fungsi helper untuk mengecek apakah path sedang aktif
+>>>>>>> 664b17580807ab2abe3415669c17297d2005b759
     const isActive = (path: string) => location.pathname === path || location.pathname.startsWith(`${path}/`);
 
     return (
         <div className="flex h-screen bg-gray-50 font-sans text-gray-800 overflow-hidden">
+<<<<<<< HEAD
+
+            {/* Overlay Mobile */}
+            <div
+=======
             
             {/* Overlay Mobile */}
             <div 
+>>>>>>> 664b17580807ab2abe3415669c17297d2005b759
                 className={`fixed inset-0 bg-gray-900/50 z-20 lg:hidden transition-opacity ${isSidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
                 onClick={() => setIsSidebarOpen(false)}
             ></div>
 
             {/* Sidebar Container */}
             <aside className={`fixed inset-y-0 left-0 z-30 w-64 bg-khazanah-dark text-white shadow-xl transform transition-transform duration-300 lg:static lg:translate-x-0 flex flex-col ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+<<<<<<< HEAD
+
+=======
                 
+>>>>>>> 664b17580807ab2abe3415669c17297d2005b759
                 {/* Logo Area */}
                 <div className="flex items-center justify-center h-20 border-b border-khazanah-green/30 px-6 shrink-0">
                     <img src={logo} alt="Logo" className="h-10 w-auto mr-3 bg-white p-1 rounded-lg" />
@@ -73,6 +109,14 @@ const AdminLayout: React.FC = () => {
 
                 {/* Menu Navigasi (Scrollable) */}
                 <nav className="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto custom-scrollbar">
+<<<<<<< HEAD
+
+                    <Link
+                        to="/admin/dashboard"
+                        onClick={() => setIsSidebarOpen(false)}
+                        className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${isActive('/admin/dashboard') ? 'bg-khazanah-green text-white font-bold shadow-lg shadow-khazanah-green/20' : 'text-gray-300 hover:bg-khazanah-green/20 hover:text-white'
+                            }`}
+=======
                     
                     <Link
                         to="/admin/dashboard"
@@ -80,11 +124,20 @@ const AdminLayout: React.FC = () => {
                         className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${
                             isActive('/admin/dashboard') ? 'bg-khazanah-green text-white font-bold shadow-lg shadow-khazanah-green/20' : 'text-gray-300 hover:bg-khazanah-green/20 hover:text-white'
                         }`}
+>>>>>>> 664b17580807ab2abe3415669c17297d2005b759
                     >
                         <LayoutDashboard size={20} />
                         <span>Dashboard</span>
                     </Link>
 
+<<<<<<< HEAD
+                    {/* Program Management */}
+                    <div>
+                        <button
+                            onClick={() => setIsProgramMenuOpen(!isProgramMenuOpen)}
+                            className={`w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-300 ${isActive('/admin/programs') && !isProgramMenuOpen ? 'bg-khazanah-green/20 text-white' : 'text-gray-300 hover:bg-khazanah-green/20 hover:text-white'
+                                }`}
+=======
                     {/* Program Management (Dengan Submenu) */}
                     <div>
                         <button
@@ -92,6 +145,7 @@ const AdminLayout: React.FC = () => {
                             className={`w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-300 ${
                                 isActive('/admin/programs') && !isProgramMenuOpen ? 'bg-khazanah-green/20 text-white' : 'text-gray-300 hover:bg-khazanah-green/20 hover:text-white'
                             }`}
+>>>>>>> 664b17580807ab2abe3415669c17297d2005b759
                         >
                             <div className="flex items-center gap-3 font-semibold">
                                 <FolderKanban size={20} />
@@ -99,8 +153,12 @@ const AdminLayout: React.FC = () => {
                             </div>
                             {isProgramMenuOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
                         </button>
+<<<<<<< HEAD
+
+=======
                         
                         {/* Submenu Items */}
+>>>>>>> 664b17580807ab2abe3415669c17297d2005b759
                         <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isProgramMenuOpen ? 'max-h-40 opacity-100 mt-1' : 'max-h-0 opacity-0'}`}>
                             <div className="pl-11 pr-4 py-2 space-y-1 border-l-2 border-khazanah-green/30 ml-6">
                                 <Link to="/admin/programs" onClick={() => setIsSidebarOpen(false)} className={`block py-2 text-sm transition-colors ${location.pathname === '/admin/programs' ? 'text-khazanah-gold font-bold' : 'text-gray-400 hover:text-white'}`}>All Programs</Link>
@@ -110,6 +168,24 @@ const AdminLayout: React.FC = () => {
                         </div>
                     </div>
 
+<<<<<<< HEAD
+                    {/* Menu Keanggotaan Baru */}
+                    <Link
+                        to="/admin/members"
+                        onClick={() => setIsSidebarOpen(false)}
+                        className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${isActive('/admin/members') ? 'bg-khazanah-green text-white font-bold shadow-lg shadow-khazanah-green/20' : 'text-gray-300 hover:bg-khazanah-green/20 hover:text-white'
+                            }`}
+                    >
+                        <Users size={20} />
+                        <span>Members</span>
+                    </Link>
+
+                    <Link
+                        to="/admin/leaders"
+                        onClick={() => setIsSidebarOpen(false)}
+                        className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${isActive('/admin/leaders') ? 'bg-khazanah-green text-white font-bold shadow-lg shadow-khazanah-green/20' : 'text-gray-300 hover:bg-khazanah-green/20 hover:text-white'
+                            }`}
+=======
                     <Link
                         to="/admin/participants"
                         onClick={() => setIsSidebarOpen(false)}
@@ -127,6 +203,7 @@ const AdminLayout: React.FC = () => {
                         className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${
                             isActive('/admin/community') ? 'bg-khazanah-green text-white font-bold shadow-lg shadow-khazanah-green/20' : 'text-gray-300 hover:bg-khazanah-green/20 hover:text-white'
                         }`}
+>>>>>>> 664b17580807ab2abe3415669c17297d2005b759
                     >
                         <ShieldHalf size={20} />
                         <span>Community Leaders</span>
@@ -135,14 +212,26 @@ const AdminLayout: React.FC = () => {
                     <Link
                         to="/admin/ruang"
                         onClick={() => setIsSidebarOpen(false)}
+<<<<<<< HEAD
+                        className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${isActive('/admin/ruang') ? 'bg-khazanah-green text-white font-bold shadow-lg shadow-khazanah-green/20' : 'text-gray-300 hover:bg-khazanah-green/20 hover:text-white'
+                            }`}
+=======
                         className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${
                             isActive('/admin/ruang') ? 'bg-khazanah-green text-white font-bold shadow-lg shadow-khazanah-green/20' : 'text-gray-300 hover:bg-khazanah-green/20 hover:text-white'
                         }`}
+>>>>>>> 664b17580807ab2abe3415669c17297d2005b759
                     >
                         <MessageSquare size={20} />
                         <span>Ruang Curhat</span>
                     </Link>
 
+<<<<<<< HEAD
+                    <Link
+                        to="/admin/articles"
+                        onClick={() => setIsSidebarOpen(false)}
+                        className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${isActive('/admin/articles') ? 'bg-khazanah-green text-white font-bold shadow-lg shadow-khazanah-green/20' : 'text-gray-300 hover:bg-khazanah-green/20 hover:text-white'
+                            }`}
+=======
                     {/* MENU BARU: ARTICLES */}
                     <Link
                         to="/admin/articles"
@@ -150,6 +239,7 @@ const AdminLayout: React.FC = () => {
                         className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${
                             isActive('/admin/articles') ? 'bg-khazanah-green text-white font-bold shadow-lg shadow-khazanah-green/20' : 'text-gray-300 hover:bg-khazanah-green/20 hover:text-white'
                         }`}
+>>>>>>> 664b17580807ab2abe3415669c17297d2005b759
                     >
                         <FileText size={20} />
                         <span>Articles</span>
@@ -158,9 +248,14 @@ const AdminLayout: React.FC = () => {
                     <Link
                         to="/admin/speakers"
                         onClick={() => setIsSidebarOpen(false)}
+<<<<<<< HEAD
+                        className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${isActive('/admin/speakers') ? 'bg-khazanah-green text-white font-bold shadow-lg shadow-khazanah-green/20' : 'text-gray-300 hover:bg-khazanah-green/20 hover:text-white'
+                            }`}
+=======
                         className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${
                             isActive('/admin/speakers') ? 'bg-khazanah-green text-white font-bold shadow-lg shadow-khazanah-green/20' : 'text-gray-300 hover:bg-khazanah-green/20 hover:text-white'
                         }`}
+>>>>>>> 664b17580807ab2abe3415669c17297d2005b759
                     >
                         <MicVocal size={20} />
                         <span>Speakers</span>
@@ -169,9 +264,14 @@ const AdminLayout: React.FC = () => {
                     <Link
                         to="/admin/tasks"
                         onClick={() => setIsSidebarOpen(false)}
+<<<<<<< HEAD
+                        className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${isActive('/admin/tasks') ? 'bg-khazanah-green text-white font-bold shadow-lg shadow-khazanah-green/20' : 'text-gray-300 hover:bg-khazanah-green/20 hover:text-white'
+                            }`}
+=======
                         className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${
                             isActive('/admin/tasks') ? 'bg-khazanah-green text-white font-bold shadow-lg shadow-khazanah-green/20' : 'text-gray-300 hover:bg-khazanah-green/20 hover:text-white'
                         }`}
+>>>>>>> 664b17580807ab2abe3415669c17297d2005b759
                     >
                         <ListTodo size={20} />
                         <span>Tasks</span>
@@ -180,9 +280,14 @@ const AdminLayout: React.FC = () => {
                     <Link
                         to="/admin/reports"
                         onClick={() => setIsSidebarOpen(false)}
+<<<<<<< HEAD
+                        className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${isActive('/admin/reports') ? 'bg-khazanah-green text-white font-bold shadow-lg shadow-khazanah-green/20' : 'text-gray-300 hover:bg-khazanah-green/20 hover:text-white'
+                            }`}
+=======
                         className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${
                             isActive('/admin/reports') ? 'bg-khazanah-green text-white font-bold shadow-lg shadow-khazanah-green/20' : 'text-gray-300 hover:bg-khazanah-green/20 hover:text-white'
                         }`}
+>>>>>>> 664b17580807ab2abe3415669c17297d2005b759
                     >
                         <FileBarChart size={20} />
                         <span>Reports</span>
@@ -191,9 +296,14 @@ const AdminLayout: React.FC = () => {
                     <Link
                         to="/admin/settings"
                         onClick={() => setIsSidebarOpen(false)}
+<<<<<<< HEAD
+                        className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${isActive('/admin/settings') ? 'bg-khazanah-green text-white font-bold shadow-lg shadow-khazanah-green/20' : 'text-gray-300 hover:bg-khazanah-green/20 hover:text-white'
+                            }`}
+=======
                         className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${
                             isActive('/admin/settings') ? 'bg-khazanah-green text-white font-bold shadow-lg shadow-khazanah-green/20' : 'text-gray-300 hover:bg-khazanah-green/20 hover:text-white'
                         }`}
+>>>>>>> 664b17580807ab2abe3415669c17297d2005b759
                     >
                         <Settings size={20} />
                         <span>Settings</span>
@@ -203,14 +313,22 @@ const AdminLayout: React.FC = () => {
 
                 {/* Bottom Action Area */}
                 <div className="p-4 border-t border-khazanah-green/30 space-y-2 shrink-0">
+<<<<<<< HEAD
+                    <Link
+=======
                     <Link 
+>>>>>>> 664b17580807ab2abe3415669c17297d2005b759
                         to="/"
                         className="flex items-center gap-3 w-full px-4 py-3 text-khazanah-gold hover:bg-khazanah-gold/10 hover:text-yellow-400 rounded-xl transition-colors font-semibold"
                     >
                         <Globe size={20} />
                         <span>Lihat Website</span>
                     </Link>
+<<<<<<< HEAD
+                    <button
+=======
                     <button 
+>>>>>>> 664b17580807ab2abe3415669c17297d2005b759
                         onClick={handleLogout}
                         className="flex items-center gap-3 w-full px-4 py-3 text-red-400 hover:bg-red-500/10 hover:text-red-300 rounded-xl transition-colors font-semibold"
                     >
@@ -222,11 +340,19 @@ const AdminLayout: React.FC = () => {
 
             {/* Main Content Area */}
             <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+<<<<<<< HEAD
+
+                {/* Header Topbar */}
+                <header className="bg-white h-20 shadow-sm border-b border-gray-100 flex items-center justify-between px-4 lg:px-8 z-10 shrink-0">
+                    <div className="flex items-center gap-4">
+                        <button
+=======
                 
                 {/* Header Topbar */}
                 <header className="bg-white h-20 shadow-sm border-b border-gray-100 flex items-center justify-between px-4 lg:px-8 z-10 shrink-0">
                     <div className="flex items-center gap-4">
                         <button 
+>>>>>>> 664b17580807ab2abe3415669c17297d2005b759
                             className="lg:hidden text-gray-500 hover:text-khazanah-green transition-colors bg-gray-50 p-2 rounded-lg"
                             onClick={() => setIsSidebarOpen(true)}
                         >
