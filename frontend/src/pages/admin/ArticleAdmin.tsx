@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CheckCircle, XCircle, Trash2, FileText, Loader2 } from 'lucide-react';
 import Swal from 'sweetalert2';
+import { API_ENDPOINTS } from '../../config/api';
 
 interface Article {
     id: number;
@@ -18,7 +19,7 @@ const ArticleAdmin: React.FC = () => {
 
     const fetchArticles = async () => {
         try {
-            const res = await fetch('http://localhost:5000/api/articles/admin');
+            const res = await fetch(`${API_ENDPOINTS.articles}/admin`);
             const data = await res.json();
             setArticles(data);
         } catch (error) {
@@ -34,7 +35,7 @@ const ArticleAdmin: React.FC = () => {
 
     const handleStatusChange = async (id: number, newStatus: 'approved' | 'rejected') => {
         try {
-            await fetch(`http://localhost:5000/api/articles/${id}/status`, {
+            await fetch(`${API_ENDPOINTS.articles}/${id}/status`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ status: newStatus })
@@ -58,7 +59,7 @@ const ArticleAdmin: React.FC = () => {
 
         if (result.isConfirmed) {
             try {
-                await fetch(`http://localhost:5000/api/articles/${id}`, { method: 'DELETE' });
+                await fetch(`${API_ENDPOINTS.articles}/${id}`, { method: 'DELETE' });
                 fetchArticles();
                 Swal.fire('Terhapus!', 'Artikel telah dihapus.', 'success');
             } catch (error) {

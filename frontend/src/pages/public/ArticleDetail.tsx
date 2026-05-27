@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, User, Calendar, Tag, Share2, Loader2, BookOpen } from 'lucide-react';
+import { API_URL, API_ENDPOINTS } from '../../config/api';
 
 interface ArticleDetail {
     id: number;
@@ -23,7 +24,7 @@ const ArticleDetail: React.FC = () => {
         const fetchArticleDetail = async () => {
             try {
                 // Fetch data dari backend menggunakan slug
-                const res = await fetch(`http://localhost:5000/api/articles/slug/${slug}`);
+                const res = await fetch(`${API_ENDPOINTS.articles}/slug/${slug}`);
                 if (!res.ok) {
                     if (res.status === 404) {
                         navigate('/artikel'); // Redirect jika tidak ditemukan
@@ -122,7 +123,7 @@ const ArticleDetail: React.FC = () => {
                     <figure className="mb-16">
                         <div className="w-full aspect-[21/9] md:aspect-[16/9] rounded-[2rem] overflow-hidden shadow-2xl shadow-gray-200/50 bg-gray-100 border border-gray-100">
                             <img 
-                                src={`http://localhost:5000${article.thumbnail}`} 
+                                src={`${API_URL}${article.thumbnail}`} 
                                 alt={article.title}
                                 className="w-full h-full object-cover"
                             />

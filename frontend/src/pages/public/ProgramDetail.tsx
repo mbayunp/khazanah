@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Calendar, MapPin, Users, ArrowLeft, CheckCircle2, Share2, MessageCircle, Send, Clock, Edit2, Trash2, X, Save } from 'lucide-react';
+import { API_URL, API_ENDPOINTS } from '../../config/api';
 
 interface ProgramType {
     id: number;
@@ -43,13 +44,13 @@ const ProgramDetail: React.FC = () => {
         const fetchProgramAndComments = async () => {
             try {
                 // 1. Fetch Program
-                const response = await fetch(`http://localhost:5000/api/programs/slug/${slug}`);
+                const response = await fetch(`${API_ENDPOINTS.programs}/slug/${slug}`);
                 if (!response.ok) throw new Error("Program tidak ditemukan");
                 const data = await response.json();
                 setProgram(data);
 
                 // 2. Fetch Komentar dari DB menggunakan ID program
-                const resComments = await fetch(`http://localhost:5000/api/programs/${data.id}/comments`);
+                const resComments = await fetch(`${API_ENDPOINTS.programs}/${data.id}/comments`);
                 if (resComments.ok) {
                     const commentsData = await resComments.json();
                     const formattedComments = commentsData.map((c: any) => ({
@@ -89,7 +90,7 @@ const ProgramDetail: React.FC = () => {
 
         try {
             // POST ke Backend API
-            const res = await fetch(`http://localhost:5000/api/programs/${program.id}/comments`, {
+            const res = await fetch(`${API_ENDPOINTS.programs}/${program.id}/comments`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name: newName, text: newComment })
@@ -97,7 +98,7 @@ const ProgramDetail: React.FC = () => {
 
             if (res.ok) {
                 // Tarik ulang data komentar terbaru dari DB
-                const resComments = await fetch(`http://localhost:5000/api/programs/${program.id}/comments`);
+                const resComments = await fetch(`${API_ENDPOINTS.programs}/${program.id}/comments`);
                 const commentsData = await resComments.json();
                 const formattedComments = commentsData.map((c: any) => ({
                     id: c.id,
@@ -170,7 +171,7 @@ const ProgramDetail: React.FC = () => {
 
                         <div className="rounded-3xl overflow-hidden shadow-2xl shadow-khazanah-dark/10 bg-gray-200 aspect-video lg:aspect-auto lg:h-[450px]">
                             {program.image ? (
-                                <img src={`http://localhost:5000${program.image}`} alt={program.title} className="w-full h-full object-cover" />
+                                <img src={`${API_URL}${program.image}`} alt={program.title} className="w-full h-full object-cover" />
                             ) : (
                                 <div className="w-full h-full flex items-center justify-center text-gray-400">Khazanah Poster</div>
                             )}

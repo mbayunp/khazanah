@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Edit, Trash2, Plus, Search } from 'lucide-react';
 import Swal from 'sweetalert2';
+import { API_URL, API_ENDPOINTS } from '../../../config/api';
 
 const ProgramList: React.FC = () => {
     const [programs, setPrograms] = useState<any[]>([]);
@@ -9,7 +10,7 @@ const ProgramList: React.FC = () => {
 
     const fetchPrograms = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/programs');
+            const response = await fetch(API_ENDPOINTS.programs);
             const data = await response.json();
             if (response.ok) {
                 setPrograms(data);
@@ -37,7 +38,7 @@ const ProgramList: React.FC = () => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    await fetch(`http://localhost:5000/api/programs/${id}`, { method: 'DELETE' });
+                    await fetch(`${API_ENDPOINTS.programs}/${id}`, { method: 'DELETE' });
                     Swal.fire('Terhapus!', 'Program berhasil dihapus.', 'success');
                     fetchPrograms();
                 } catch (error) {
@@ -90,7 +91,7 @@ const ProgramList: React.FC = () => {
                                             <div className="flex items-center gap-3">
                                                 <div className="w-12 h-12 bg-gray-100 rounded-lg overflow-hidden shrink-0 border border-gray-200 flex items-center justify-center">
                                                     {prog.image ? (
-                                                        <img src={`http://localhost:5000${prog.image}`} alt={prog.title} className="w-full h-full object-cover" />
+                                                        <img src={`${API_URL}${prog.image}`} alt={prog.title} className="w-full h-full object-cover" />
                                                     ) : (
                                                         <span className="text-gray-400 text-xs">No Img</span>
                                                     )}

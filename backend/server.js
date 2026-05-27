@@ -13,6 +13,7 @@ const sholehahRoutes = require('./src/routes/sholehahRoutes');
 const jofisahRoutes = require('./src/routes/jofisahRoutes');
 const leaderRoutes = require('./src/routes/leaderRoutes');
 const memberRoutes = require('./src/routes/memberRoutes');
+const categoryRoutes = require('./src/routes/categoryRoutes');
 const db = require('./src/config/db');
 
 const app = express();
@@ -33,6 +34,7 @@ app.use('/api/sholehah', sholehahRoutes);
 app.use('/api/jofisah', jofisahRoutes);
 app.use('/api/leaders', leaderRoutes);
 app.use('/api/members', memberRoutes);
+app.use('/api/categories', categoryRoutes);
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, async () => {

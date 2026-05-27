@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Calendar, MapPin, Sparkles, Inbox } from 'lucide-react';
+import { API_URL, API_ENDPOINTS } from '../../config/api';
 
 interface ProgramType {
     id: number;
@@ -20,17 +21,28 @@ const Program: React.FC = () => {
     const [selectedCategory, setSelectedCategory] = useState<string>("Semua");
     const [searchQuery, setSearchQuery] = useState<string>("");
 
-    const categories = ["Semua", "Jofisah", "Jumanji", "Sholehah"];
+    const [categories, setCategories] = useState<string[]>(["Semua"]);
 
     useEffect(() => {
-        const fetchPrograms = async () => {
+        const fetchData = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/programs');
+                // Fetch programs
+                const response = await fetch(API_ENDPOINTS.programs);
                 const data = await response.json();
                 
                 // Hanya tampilkan program yang bukan 'draft' di halaman publik
-                const publicPrograms = data.filter((p: ProgramType) => p.status !== 'draft');
+                const publicPrograms = Array.isArray(data) ? data.filter((p: ProgramType) => p.status !== 'draft') : [];
                 setPrograms(publicPrograms);
+
+                // Fetch categories
+                const catResponse = await fetch(API_ENDPOINTS.categories);
+                if (catResponse.ok) {
+                    const catData = await catResponse.json();
+                    if (Array.isArray(catData)) {
+                        const names = catData.map((c: any) => c.name);
+                        setCategories(["Semua", ...names]);
+                    }
+                }
             } catch (error) {
                 console.error("Gagal mengambil data program:", error);
             } finally {
@@ -38,7 +50,8 @@ const Program: React.FC = () => {
             }
         };
 
-        fetchPrograms();
+        fetchData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // Logika Filter
@@ -141,7 +154,7 @@ const Program: React.FC = () => {
                                         <div className="h-52 w-full bg-gray-200 relative overflow-hidden">
                                             {program.image ? (
                                                 <img 
-                                                    src={`http://localhost:5000${program.image}`} 
+                                                    src={`${API_URL}${program.image}`} 
                                                     alt={program.title} 
                                                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
                                                 />

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { Save, ArrowLeft, UploadCloud, ImageIcon, Loader2 } from 'lucide-react';
 import Swal from 'sweetalert2';
+import { API_URL, API_ENDPOINTS } from '../../../config/api';
 
 const ProgramForm: React.FC = () => {
     const { id } = useParams();
@@ -18,10 +19,23 @@ const ProgramForm: React.FC = () => {
     
     // State Loading untuk mencegah double-submit
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [categoriesList, setCategoriesList] = useState<any[]>([]);
 
     useEffect(() => {
+        fetch(API_ENDPOINTS.categories)
+            .then(res => res.json())
+            .then(data => {
+                if (Array.isArray(data)) {
+                    setCategoriesList(data);
+                    if (!isEdit && data.length > 0) {
+                        setFormData(prev => ({ ...prev, category: data[0].name }));
+                    }
+                }
+            })
+            .catch(err => console.error("Gagal mengambil kategori:", err));
+
         if (isEdit) {
-            fetch(`http://localhost:5000/api/programs/${id}`)
+            fetch(`${API_ENDPOINTS.programs}/${id}`)
                 .then(res => res.json())
                 .then(data => {
                     if (data.date) {
@@ -30,10 +44,11 @@ const ProgramForm: React.FC = () => {
                     } else {
                         setFormData(data);
                     }
-                    if (data.image) setImagePreview(`http://localhost:5000${data.image}`);
+                    if (data.image) setImagePreview(`${API_URL}${data.image}`);
                 });
         }
-    }, [id]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [id, isEdit]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -56,7 +71,7 @@ const ProgramForm: React.FC = () => {
         e.preventDefault();
         setIsSubmitting(true); // Kunci tombol simpan
 
-        const url = isEdit ? `http://localhost:5000/api/programs/${id}` : 'http://localhost:5000/api/programs';
+        const url = isEdit ? `${API_ENDPOINTS.programs}/${id}` : API_ENDPOINTS.programs;
         const method = isEdit ? 'PUT' : 'POST';
 
         const data = new FormData();
@@ -145,10 +160,12 @@ const ProgramForm: React.FC = () => {
 
                         <div>
                             <label className="block text-sm font-semibold text-gray-700 mb-2">Pilar Kategori *</label>
-                            <select name="category" value={formData.category} onChange={handleChange} className="w-full p-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-khazanah-green outline-none bg-gray-50 focus:bg-white transition">
-                                <option value="Jofisah">Jofisah (Faith & Self Growth)</option>
-                                <option value="Jumanji">Jumanji (Education & Dakwah)</option>
-                                <option value="Sholehah">Sholehah (Women & Sisterhood)</option>
+                            <select name="category" value={formData.category} onChange={handleChange} className="w-full p-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-khazanah-green outline-none bg-gray-50 focus:bg-white transition" required>
+                                {categoriesList.map((cat) => (
+                                    <option key={cat.id} value={cat.name}>
+                                        {cat.name}
+                                    </option>
+                                ))}
                             </select>
                         </div>
 

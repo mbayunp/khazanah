@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PenTool, UploadCloud, Send, Loader2, ImageIcon } from 'lucide-react';
 import Swal from 'sweetalert2';
+import { API_ENDPOINTS } from '../../config/api';
 
 const SubmitArticle: React.FC = () => {
     const navigate = useNavigate();
@@ -47,7 +48,7 @@ const SubmitArticle: React.FC = () => {
         }
 
         try {
-            const res = await fetch('http://localhost:5000/api/articles', {
+            const res = await fetch(API_ENDPOINTS.articles, {
                 method: 'POST',
                 body: data
             });

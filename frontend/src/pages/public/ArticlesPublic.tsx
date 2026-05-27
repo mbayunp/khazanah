@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, BookOpen, Calendar, User, ArrowRight, Loader2 } from 'lucide-react';
+import { API_URL, API_ENDPOINTS } from '../../config/api';
 
 interface Article {
     id: number;
@@ -26,7 +27,7 @@ const ArticlesPublic: React.FC = () => {
         const fetchArticles = async () => {
             try {
                 // Mengambil HANYA artikel yang approved dari backend
-                const res = await fetch('http://localhost:5000/api/articles');
+                const res = await fetch(API_ENDPOINTS.articles);
                 const data = await res.json();
                 setArticles(data);
             } catch (error) {
@@ -117,7 +118,7 @@ const ArticlesPublic: React.FC = () => {
                                 <div className="h-52 bg-gray-100 relative overflow-hidden">
                                     {article.thumbnail ? (
                                         <img 
-                                            src={`http://localhost:5000${article.thumbnail}`} 
+                                            src={`${API_URL}${article.thumbnail}`} 
                                             alt={article.title} 
                                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
                                         />

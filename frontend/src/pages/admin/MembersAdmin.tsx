@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Users, Search, Filter, MessageCircle, MoreVertical, ShieldAlert, Sparkles, Rocket, Loader2, CheckCircle, Clock, Trash2, MapPin } from 'lucide-react';
 import Swal from 'sweetalert2';
+import { API_ENDPOINTS } from '../../config/api';
 
 interface Member {
     id: number;
@@ -33,12 +34,21 @@ const MembersAdmin: React.FC = () => {
         setIsLoading(true);
         try {
             const endpoint = type === 'Sholehah' ? 'sholehah' : 'jofisah';
-            const res = await fetch(`http://localhost:5000/api/members/${endpoint}`);
+            const res = await fetch(`${API_ENDPOINTS.members}/${endpoint}`);
             const data = await res.json();
-            setMembers(data);
+
+            // Validasi: Pastikan 'data' adalah Array sebelum di-set
+            if (res.ok && Array.isArray(data)) {
+                setMembers(data);
+            } else {
+                console.error("Data bukan array atau API error:", data);
+                setMembers([]); // Jadikan array kosong agar .filter tidak crash
+            }
+
         } catch (error) {
             console.error("Gagal memuat data", error);
             Swal.fire('Error', 'Gagal memuat data member', 'error');
+            setMembers([]); // Amankan dengan array kosong
         } finally {
             setIsLoading(false);
         }
@@ -52,7 +62,7 @@ const MembersAdmin: React.FC = () => {
         const nextStatus = currentStatus === 'pending' ? 'approved' : 'pending';
 
         try {
-            await fetch(`http://localhost:5000/api/members/${id}/status`, {
+            await fetch(`${API_ENDPOINTS.members}/${id}/status`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ community: community.toLowerCase(), status: nextStatus })
@@ -75,7 +85,7 @@ const MembersAdmin: React.FC = () => {
 
         if (result.isConfirmed) {
             try {
-                await fetch(`http://localhost:5000/api/members/${id}`, {
+                await fetch(`${API_ENDPOINTS.members}/${id}`, {
                     method: 'DELETE',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ community: community.toLowerCase() })

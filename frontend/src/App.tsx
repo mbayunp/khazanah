@@ -9,6 +9,7 @@ import Dashboard from './pages/admin/Dashboard';
 // Import komponen program
 import ProgramList from './pages/admin/programs/ProgramList';
 import ProgramForm from './pages/admin/programs/ProgramForm';
+import CategoriesAdmin from './pages/admin/CategoriesAdmin';
 import RuangAdmin from './pages/admin/RuangAdmin';
 import ArticleAdmin from './pages/admin/ArticleAdmin';
 import TasksAdmin from './pages/admin/TasksAdmin';
@@ -33,6 +34,7 @@ function App() {
           <Route path="programs" element={<ProgramList />} />
           <Route path="programs/create" element={<ProgramForm />} />
           <Route path="programs/edit/:id" element={<ProgramForm />} />
+          <Route path="categories" element={<CategoriesAdmin />} />
 
           {/* Rute Ruang Curhat Admin */}
           <Route path="ruang" element={<RuangAdmin />} />

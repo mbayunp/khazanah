@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ShieldHalf, Search, Filter, MessageCircle, FileText, Loader2, Trash2, MapPin, Star, Target, CheckCircle2, XCircle } from 'lucide-react';
 import Swal from 'sweetalert2';
+import { API_URL, API_ENDPOINTS } from '../../config/api';
 
 interface Leader {
     id: number;
@@ -28,12 +29,21 @@ const LeadersAdmin: React.FC = () => {
     const fetchLeaders = async () => {
         setIsLoading(true);
         try {
-            const res = await fetch('http://localhost:5000/api/leaders');
+            const res = await fetch(API_ENDPOINTS.leaders);
             const data = await res.json();
-            setLeaders(data);
+
+            // Validasi: Pastikan 'data' adalah Array sebelum di-set
+            if (res.ok && Array.isArray(data)) {
+                setLeaders(data);
+            } else {
+                console.error("Data bukan array atau API error:", data);
+                setLeaders([]); // Jadikan array kosong agar .filter tidak crash
+            }
+
         } catch (error) {
             console.error(error);
             Swal.fire('Error', 'Gagal memuat data pendaftar leader', 'error');
+            setLeaders([]); // Amankan dengan array kosong
         } finally {
             setIsLoading(false);
         }
@@ -45,7 +55,7 @@ const LeadersAdmin: React.FC = () => {
 
     const handleUpdateStatus = async (id: number, newStatus: string) => {
         try {
-            const res = await fetch(`http://localhost:5000/api/leaders/${id}/status`, {
+            const res = await fetch(`${API_ENDPOINTS.leaders}/${id}/status`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ status: newStatus })
@@ -71,7 +81,7 @@ const LeadersAdmin: React.FC = () => {
 
         if (result.isConfirmed) {
             try {
-                await fetch(`http://localhost:5000/api/leaders/${id}`, { method: 'DELETE' });
+                await fetch(`${API_ENDPOINTS.leaders}/${id}`, { method: 'DELETE' });
                 Swal.fire('Terhapus!', 'Data berhasil dihapus.', 'success');
                 fetchLeaders();
             } catch (error) {
@@ -227,7 +237,7 @@ const LeadersAdmin: React.FC = () => {
 
                                     <div className="flex gap-2">
                                         <a
-                                            href={`http://localhost:5000${leader.cv_file}`}
+                                            href={`${API_URL}${leader.cv_file}`}
                                             target="_blank"
                                             rel="noreferrer"
                                             className="flex items-center gap-2 bg-white border border-gray-200 text-gray-700 hover:text-indigo-600 hover:border-indigo-300 px-4 py-2.5 rounded-xl text-sm font-bold transition-all shadow-sm"

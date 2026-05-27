@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import logo from '../../assets/logo.png';
+import { API_ENDPOINTS } from '../../config/api';
 
 const LoginAdmin: React.FC = () => {
     const [email, setEmail] = useState('');
@@ -14,7 +15,7 @@ const LoginAdmin: React.FC = () => {
         setIsLoading(true);
 
         try {
-            const response = await fetch('http://localhost:5000/api/auth/login', {
+            const response = await fetch(`${API_ENDPOINTS.auth}/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password })

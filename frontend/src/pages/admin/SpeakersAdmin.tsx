@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { MicVocal, Plus, Search, Filter, Phone, Edit, Trash2, X, Save, MessageCircle, Eye, Loader2, Camera, Download } from 'lucide-react';
 import Swal from 'sweetalert2';
+import { API_URL, API_ENDPOINTS } from '../../config/api';
 
 interface Speaker {
     id: number;
@@ -40,7 +41,7 @@ const SpeakersAdmin: React.FC = () => {
     const fetchSpeakers = async () => {
         setIsLoading(true);
         try {
-            const res = await fetch('http://localhost:5000/api/speakers');
+            const res = await fetch(API_ENDPOINTS.speakers);
             const data = await res.json();
             setSpeakers(data);
         } catch (error) { console.error(error); }
@@ -74,7 +75,7 @@ const SpeakersAdmin: React.FC = () => {
     const handleSave = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsSaving(true);
-        const url = formData.id ? `http://localhost:5000/api/speakers/${formData.id}` : 'http://localhost:5000/api/speakers';
+        const url = formData.id ? `${API_ENDPOINTS.speakers}/${formData.id}` : API_ENDPOINTS.speakers;
         const method = formData.id ? 'PUT' : 'POST';
 
         const submitData = new FormData();
@@ -100,7 +101,7 @@ const SpeakersAdmin: React.FC = () => {
         const result = await Swal.fire({ title: 'Hapus data?', text: 'Data pemateri akan hilang permanen.', icon: 'warning', showCancelButton: true, confirmButtonColor: '#d33', confirmButtonText: 'Hapus' });
         if (result.isConfirmed) {
             try {
-                await fetch(`http://localhost:5000/api/speakers/${id}`, { method: 'DELETE' });
+                await fetch(`${API_ENDPOINTS.speakers}/${id}`, { method: 'DELETE' });
                 fetchSpeakers();
                 Swal.fire('Terhapus!', '', 'success');
             } catch (error) { console.error(error); }
@@ -111,7 +112,7 @@ const SpeakersAdmin: React.FC = () => {
         setPhotoFile(null);
         if (speaker) {
             setFormData(speaker);
-            setPhotoPreview(speaker.photo ? `http://localhost:5000${speaker.photo}` : null);
+            setPhotoPreview(speaker.photo ? `${API_URL}${speaker.photo}` : null);
         } else {
             setFormData({ name: '', gender: 'P', focus: '', bio: '', phone: '', instagram: '', invitation_status: 'belum', ratecard: 0, benefits: '', notes: '' });
             setPhotoPreview(null);
@@ -122,7 +123,7 @@ const SpeakersAdmin: React.FC = () => {
     // Fungsi Download Gambar (Dipanggil dari Modal Preview)
     const handleDownloadPhoto = async (photoUrl: string, speakerName: string) => {
         try {
-            const url = `http://localhost:5000${photoUrl}`;
+            const url = `${API_URL}${photoUrl}`;
             const response = await fetch(url);
             const blob = await response.blob();
             const blobUrl = window.URL.createObjectURL(blob);
@@ -217,7 +218,7 @@ const SpeakersAdmin: React.FC = () => {
                                 >
                                     {speaker.photo ? (
                                         <>
-                                            <img src={`http://localhost:5000${speaker.photo}`} alt={speaker.name} className="w-full h-full object-cover" />
+                                            <img src={`${API_URL}${speaker.photo}`} alt={speaker.name} className="w-full h-full object-cover" />
                                             {/* Hover Overlay: Ikon Mata (Preview) */}
                                             <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                                                 <Eye size={20} className="text-white" />
@@ -295,7 +296,7 @@ const SpeakersAdmin: React.FC = () => {
 
                         <div className="bg-white/5 p-2 rounded-3xl backdrop-blur-sm border border-white/10 shadow-2xl">
                             <img 
-                                src={`http://localhost:5000${viewPhotoSpeaker.photo}`} 
+                                src={`${API_URL}${viewPhotoSpeaker.photo}`} 
                                 alt={viewPhotoSpeaker.name} 
                                 className="max-h-[65vh] w-auto object-contain rounded-2xl"
                             />

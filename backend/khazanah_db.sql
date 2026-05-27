@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 11 Apr 2026 pada 09.00
+-- Waktu pembuatan: 27 Bulan Mei 2026 pada 08.40
 -- Versi server: 10.4.32-MariaDB
--- Versi PHP: 8.0.30
+-- Versi PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -51,6 +51,28 @@ INSERT INTO `articles` (`id`, `title`, `slug`, `content`, `thumbnail`, `category
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `categories`
+--
+
+CREATE TABLE `categories` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `description` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `categories`
+--
+
+INSERT INTO `categories` (`id`, `name`, `description`, `created_at`, `updated_at`) VALUES
+(1, 'Jumanji', 'Jumat Malam Mengaji', '2026-05-27 06:25:25', '2026-05-27 06:35:33'),
+(2, 'Jofisah', 'Kajian Rutin', '2026-05-27 06:35:46', '2026-05-27 06:35:46');
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `event_reports`
 --
 
@@ -72,6 +94,75 @@ CREATE TABLE `event_reports` (
 
 INSERT INTO `event_reports` (`id`, `program_id`, `participants_count`, `tor_file`, `documentation_file`, `notes`, `created_at`, `tor_status`, `doc_status`) VALUES
 (1, 2, 12, NULL, NULL, NULL, '2026-04-11 05:41:08', 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `jofisah_members`
+--
+
+CREATE TABLE `jofisah_members` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `gender` enum('Laki-laki','Perempuan') NOT NULL,
+  `phone` varchar(20) NOT NULL,
+  `generation` varchar(100) NOT NULL,
+  `activity` varchar(100) NOT NULL,
+  `domicile` varchar(255) NOT NULL,
+  `is_interested_leader` tinyint(1) DEFAULT 0,
+  `leader_interest_area` varchar(255) DEFAULT NULL,
+  `leader_reason` text DEFAULT NULL,
+  `concerns` text NOT NULL,
+  `goals` text NOT NULL,
+  `requested_topics` text DEFAULT NULL,
+  `speaker_recommendation` text DEFAULT NULL,
+  `agreement` tinyint(1) DEFAULT 1,
+  `status` enum('pending','approved','rejected') DEFAULT 'pending',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `jofisah_members`
+--
+
+INSERT INTO `jofisah_members` (`id`, `name`, `gender`, `phone`, `generation`, `activity`, `domicile`, `is_interested_leader`, `leader_interest_area`, `leader_reason`, `concerns`, `goals`, `requested_topics`, `speaker_recommendation`, `agreement`, `status`, `created_at`) VALUES
+(1, 'brandon', 'Laki-laki', '089663933263', 'Gen Z (1997-2012)', 'Bekerja', 'bandung', 1, 'Event / Host', 'z', 'z', 'z', 'z', 'z', 1, 'pending', '2026-05-27 06:08:08');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `leaders`
+--
+
+CREATE TABLE `leaders` (
+  `id` int(11) NOT NULL,
+  `full_name` varchar(255) NOT NULL,
+  `nickname` varchar(100) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `instagram` varchar(255) DEFAULT NULL,
+  `phone` varchar(20) NOT NULL,
+  `domicile` varchar(255) NOT NULL,
+  `birth_place` varchar(100) NOT NULL,
+  `birth_date` date NOT NULL,
+  `gender` enum('Laki-laki','Perempuan') NOT NULL,
+  `activity` varchar(100) NOT NULL,
+  `hobby` text DEFAULT NULL,
+  `skills` text DEFAULT NULL,
+  `interests` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`interests`)),
+  `motivation` text NOT NULL,
+  `selling_point` text NOT NULL,
+  `cv_file` varchar(255) NOT NULL,
+  `agreement` tinyint(1) DEFAULT 1,
+  `status` enum('pending','shortlisted','interview','accepted','rejected') DEFAULT 'pending',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `leaders`
+--
+
+INSERT INTO `leaders` (`id`, `full_name`, `nickname`, `email`, `instagram`, `phone`, `domicile`, `birth_place`, `birth_date`, `gender`, `activity`, `hobby`, `skills`, `interests`, `motivation`, `selling_point`, `cv_file`, `agreement`, `status`, `created_at`) VALUES
+(1, 'z', 'z', 'muhammadbayunp@gmail.com', 'z', 'z', 'z', 'z', '2026-05-27', 'Laki-laki', 'Bekerja', 'z', 'z', '[\"IT Support\"]', 'z', 'z', '/uploads/Appendix1_1779862188669.pdf', 1, 'pending', '2026-05-27 06:09:48');
 
 -- --------------------------------------------------------
 
@@ -114,8 +205,8 @@ CREATE TABLE `programs` (
 --
 
 INSERT INTO `programs` (`id`, `title`, `theme`, `slug`, `category`, `description`, `date`, `location`, `quota`, `image`, `status`, `created_at`) VALUES
-(1, '12', NULL, '12', 'Jumanji', '', '2026-04-10 18:28:00', 'zoom', 12, '/uploads/1775816856275.png', 'active', '2026-04-10 10:27:36'),
-(2, 'Bayu', '', 'bayu', 'Jofisah', NULL, '2026-04-11 00:00:00', 'Online / Group WA', 0, NULL, 'active', '2026-04-11 05:41:08');
+(1, '12', NULL, '12', 'Jumanji', '', '2026-04-10 11:28:00', 'zoom', 12, '/uploads/1775816856275.png', 'active', '2026-04-10 10:27:36'),
+(2, 'Bayu', '', 'bayu', 'Jofisah', '', '2026-04-10 17:00:00', 'Online / Group WA', 0, '/uploads/PicmeStudio-muhammad-bayu-nurdiansyah-putra-111500-Foto-1_1779863777259.jpg', 'active', '2026-04-11 05:41:08');
 
 -- --------------------------------------------------------
 
@@ -183,6 +274,38 @@ CREATE TABLE `ruang_curhat` (
 INSERT INTO `ruang_curhat` (`id`, `sender_name`, `message`, `admin_response`, `status`, `created_at`) VALUES
 (1, 'Akhwat Galau', 'Min, bagaimana caranya agar kita bisa tetap istiqomah di lingkungan pertemanan yang kurang mendukung?', NULL, 'approved', '2026-04-10 10:26:18'),
 (2, 'Mahasiswa Tingkat Akhir', 'Doakan skripsiku lancar ya teman-teman. Kadang ngerasa *burnout* banget.', NULL, 'approved', '2026-04-10 10:26:18');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `sholehah_members`
+--
+
+CREATE TABLE `sholehah_members` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `gender` varchar(20) DEFAULT 'Perempuan',
+  `phone` varchar(20) NOT NULL,
+  `generation` varchar(100) NOT NULL,
+  `activity` varchar(100) NOT NULL,
+  `domicile` varchar(255) NOT NULL,
+  `is_interested_leader` tinyint(1) DEFAULT 0,
+  `leader_interest_area` varchar(255) DEFAULT NULL,
+  `concerns` text NOT NULL,
+  `goals` text NOT NULL,
+  `requested_topics` text DEFAULT NULL,
+  `speaker_recommendation` text DEFAULT NULL,
+  `agreement` tinyint(1) DEFAULT 1,
+  `status` enum('pending','approved','rejected') DEFAULT 'pending',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `sholehah_members`
+--
+
+INSERT INTO `sholehah_members` (`id`, `name`, `gender`, `phone`, `generation`, `activity`, `domicile`, `is_interested_leader`, `leader_interest_area`, `concerns`, `goals`, `requested_topics`, `speaker_recommendation`, `agreement`, `status`, `created_at`) VALUES
+(1, 'bayu', 'Perempuan', '089663933263', 'Gen Z (1997-2012)', 'Bekerja', 'Bandung', 1, 'Event Organizer (Host/Moderator)', 'Cie', 'Jodoh', 'z', 'z', 1, 'pending', '2026-05-27 06:07:10');
 
 -- --------------------------------------------------------
 
@@ -270,7 +393,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `created_at`) VALUES
-(1, 'bayu', 'admin@bayu', '$2b$10$5jYQ7uaVfvOn5r14lw3yGOFKFx4KybZ.AJfSKeHnmoV3MY6pRfsKW', 'admin', '2026-04-10 10:26:58');
+(1, 'bayu', 'admin@bayu', '$2b$10$5jYQ7uaVfvOn5r14lw3yGOFKFx4KybZ.AJfSKeHnmoV3MY6pRfsKW', 'admin', '2026-04-10 10:26:58'),
+(2, 'Bayu', 'muhammadbayunp@gmail.com', '$2b$10$v0XXabmKfjB1uwuGYJfQLuqeiYggUiol5IH1bVDr6OModROtutW/C', 'admin', '2026-05-27 05:40:11');
 
 --
 -- Indexes for dumped tables
@@ -284,11 +408,30 @@ ALTER TABLE `articles`
   ADD UNIQUE KEY `slug` (`slug`);
 
 --
+-- Indeks untuk tabel `categories`
+--
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
+
+--
 -- Indeks untuk tabel `event_reports`
 --
 ALTER TABLE `event_reports`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `program_id` (`program_id`);
+
+--
+-- Indeks untuk tabel `jofisah_members`
+--
+ALTER TABLE `jofisah_members`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `leaders`
+--
+ALTER TABLE `leaders`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indeks untuk tabel `participants`
@@ -325,6 +468,12 @@ ALTER TABLE `ruang_curhat`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indeks untuk tabel `sholehah_members`
+--
+ALTER TABLE `sholehah_members`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indeks untuk tabel `speakers`
 --
 ALTER TABLE `speakers`
@@ -355,9 +504,27 @@ ALTER TABLE `articles`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT untuk tabel `categories`
+--
+ALTER TABLE `categories`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT untuk tabel `event_reports`
 --
 ALTER TABLE `event_reports`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT untuk tabel `jofisah_members`
+--
+ALTER TABLE `jofisah_members`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT untuk tabel `leaders`
+--
+ALTER TABLE `leaders`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
@@ -391,6 +558,12 @@ ALTER TABLE `ruang_curhat`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT untuk tabel `sholehah_members`
+--
+ALTER TABLE `sholehah_members`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT untuk tabel `speakers`
 --
 ALTER TABLE `speakers`
@@ -406,7 +579,7 @@ ALTER TABLE `tasks`
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
